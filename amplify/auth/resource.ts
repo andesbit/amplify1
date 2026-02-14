@@ -2,27 +2,27 @@ import { defineAuth, secret } from "@aws-amplify/backend";
 
 export const auth = defineAuth({
   loginWith: {
-    email: true,
+    email: true,  // o phone: true, etc. si lo usas
     externalProviders: {
       google: {
         clientId: secret('GOOGLE_CLIENT_ID'),
         clientSecret: secret('GOOGLE_CLIENT_SECRET'),
-        // Opcional: scopes si quieres limitar/expandir permisos
-        // scopes: ['profile', 'email'],
-        // Opcional: attributeMapping si necesitas mapear atributos de Google a Cognito
-        // attributeMapping: { email: 'email', name: 'name' }
+        // Opcional pero recomendado:
+        scopes: ['profile', 'email', 'openid'],  // para obtener email y nombre
+        // attributeMapping: { email: 'email', name: 'name' }  // si necesitas mapear atributos
       },
+      // Si agregas más proveedores (facebook, apple, oidc, saml), van aquí al mismo nivel
+      callbackUrls: [
+        'http://localhost:3000/',
+        'http://localhost:3000/profile',
+        'https://main.d2npvh5w3g4srb.amplifyapp.com/',
+        'https://main.d2npvh5w3g4srb.amplifyapp.com/profile',
+      ],
+      logoutUrls: [
+        'http://localhost:3000/',
+        'https://main.d2npvh5w3g4srb.amplifyapp.com/',
+      ],
     },
-    // ← Aquí van las URLs de redirección (al mismo nivel que externalProviders)
-    callbackUrls: [
-      'http://localhost:3000/',
-      'http://localhost:3000/profile',
-      'https://main.d2npvh5w3g4srb.amplifyapp.com/',
-      'https://main.d2npvh5w3g4srb.amplifyapp.com/profile',
-    ],
-    logoutUrls: [
-      'http://localhost:3000/',
-      'https://main.d2npvh5w3g4srb.amplifyapp.com/',
-    ],
   },
+  // Otras configs globales si las tienes: userAttributes, multifactor, etc.
 });
