@@ -1,0 +1,375 @@
+
+.home-container {
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #ea9f66 0%, #7a4423 100%);
+  padding: 40px 20px;
+}
+
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+
+.home-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.home-content > p {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  opacity: 0.95;
+}
+
+/* Panel de administrador */
+.admin-panel {
+  margin: 30px 0;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-admin {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #eaa466;
+  border: 3px solid white;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.btn-admin:hover {
+  background-color: white;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px 30px;
+  border-radius: 15px;
+  transition: transform 0.3s, background-color 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.feature p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Sección de usuarios */
+.users-section {
+  margin-top: 60px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  color: #333;
+}
+
+.users-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #b3a391;
+}
+
+/* Buscador */
+.search-container-home {
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+.search-box-home {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-home {
+  width: 100%;
+  padding: 15px 45px 15px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 50px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-input-home:focus {
+  outline: none;
+  border-color: #eaa866;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.clear-btn-home {
+  position: absolute;
+  right: 15px;
+  background: #ccc;
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.clear-btn-home:hover {
+  background: #999;
+  transform: scale(1.1);
+}
+
+.search-results-text-home {
+  color: #ea9666;
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.loading-users {
+  padding: 40px;
+  font-size: 1.3rem;
+  color: #a18777;
+}
+
+.no-users-home {
+  padding: 60px 20px;
+  color: #999;
+}
+
+.no-users-home p {
+  font-size: 1.2rem;
+}
+
+.users-grid-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.user-card-home {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.user-card-home:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.user-avatar-home {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #eaa166 0%, #978672 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.user-info-home {
+  flex: 1;
+}
+
+.user-info-home h3 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+}
+
+.user-age-home {
+  color: #ea9966;
+  font-weight: 600;
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.user-bio-home {
+  color: #666;
+  margin: 10px 0 0 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.user-offer-home {
+  margin-top: 12px;
+  padding: 10px;
+  background-color: #f0f4ff;
+  border-left: 3px solid #aa8c68;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.user-offer-home strong {
+  color: #9e8a6f;
+}
+
+.load-more-container-home {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.btn-load-more-home {
+  padding: 15px 40px;
+  background-color: #897667;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-load-more-home:hover:not(:disabled) {
+  background-color: #d38c55;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(234, 135, 102, 0.4);
+}
+
+.btn-load-more-home:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner-home {
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.end-message-home {
+  padding: 20px;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.end-message-home p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .home-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .home-content > p {
+    font-size: 1.2rem;
+  }
+
+  .home-features {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-admin {
+    font-size: 1rem;
+    padding: 12px 30px;
+  }
+
+  .users-section {
+    padding: 20px;
+  }
+
+  .users-section h2 {
+    font-size: 2rem;
+  }
+
+  .users-grid-home {
+    grid-template-columns: 1fr;
+  }
+
+  .search-input-home {
+    font-size: 1rem;
+    padding: 12px 40px 12px 15px;
+  }
+}
+
+.user-avatar-home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-card-home.clickable {
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.user-card-home.clickable:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  background-color: #f8f9ff;
+}
+
+.user-card-home.clickable:active {
+  transform: translateY(-4px);
+}

@@ -1,0 +1,121 @@
+
+.dashboard-container {
+  min-height: calc(100vh - 70px);
+  background-color: #f5f7fa;
+}
+
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.dashboard-header {
+  margin-bottom: 40px;
+}
+
+.dashboard-header h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.dashboard-section {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.dashboard-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #a69577;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+.activity-title {
+  color: #333;
+  font-weight: 500;
+  margin: 0 0 5px 0;
+}
+
+.activity-time {
+  color: #999;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px);
+  font-size: 1.5rem;
+  color: #e88a70;
+}
