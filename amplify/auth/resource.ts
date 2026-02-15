@@ -1,17 +1,14 @@
+
 import { defineAuth, secret } from "@aws-amplify/backend";
 
 export const auth = defineAuth({
   loginWith: {
-    email: true,  // o phone: true, etc. si lo usas
+    email: true,
     externalProviders: {
       google: {
         clientId: secret('GOOGLE_CLIENT_ID'),
         clientSecret: secret('GOOGLE_CLIENT_SECRET'),
-        // Opcional pero recomendado:
-        scopes: ['profile', 'email', 'openid'],  // para obtener email y nombre
-        // attributeMapping: { email: 'email', name: 'name' }  // si necesitas mapear atributos
       },
-      // Si agregas más proveedores (facebook, apple, oidc, saml), van aquí al mismo nivel
       callbackUrls: [
         'http://localhost:3000/',
         'http://localhost:3000/profile',
@@ -24,5 +21,4 @@ export const auth = defineAuth({
       ],
     },
   },
-  // Otras configs globales si las tienes: userAttributes, multifactor, etc.
 });
