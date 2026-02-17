@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import './Home.css';
 
-const client = generateClient({
-  authMode: 'apiKey'
-});
+//const client = generateClient({
+//  authMode: 'apiKey'
+//});
+
+// DESPUÉS:
+import { getClient } from '../utils/apiClient.js';
 
 function Home() {
   const navigate = useNavigate();
@@ -84,7 +87,7 @@ function Home() {
 
   async function loadUsers(token = null) {
     const isLoadingMore = !!token;
-    
+    const client = getClient();
     if (isLoadingMore) {
       setLoadingMore(true);
     } else {
@@ -121,7 +124,7 @@ function Home() {
     setSearching(true);
     setLoading(true);
     setHasMore(false);
-
+    const client = getClient();
     try {
       const term = searchTerm.trim();
       const ageNumber = parseInt(term);
@@ -172,8 +175,9 @@ function Home() {
   return (
     <div className="home-container">
       <div className="home-content">
-        <h1>Bienvenido a Mi Aplicación</h1>
+        {/*<h1>Bienvenido a Mi Aplicación</h1>
         <p>Una plataforma moderna para gestionar tus proyectos</p>
+        */}
 
         {isAdmin && (
           <div className="admin-panel">
@@ -186,7 +190,7 @@ function Home() {
           </div>
         )}
 
-        <div className="home-features">
+        {/*<div className="home-features">
           <div className="feature">
             <span className="feature-icon">⚡</span>
             <h3>Rápido y Seguro</h3>
@@ -202,7 +206,7 @@ function Home() {
             <h3>Siempre Disponible</h3>
             <p>Accede desde cualquier lugar</p>
           </div>
-        </div>
+        </div>*/}
 
         <div className="users-section">
           <h2>Nuestros Usuarios y Ofertas</h2>

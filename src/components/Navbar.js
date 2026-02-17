@@ -34,8 +34,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <span>🚀</span>
-          <h1>Mi Aplicación</h1>
+             <span class="o">&nbsp;O</span><span class="fertio">fertio</span>
         </Link>
 
         <ul className="navbar-menu">

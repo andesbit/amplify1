@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import './Users.css';
+import { getClient } from '../utils/apiClient.js';
 
-const client = generateClient();
+// Elimina: const client = generateClient(...)
+
+//const client = generateClient();
 
 function Users() {
   const navigate = useNavigate();
@@ -51,6 +54,7 @@ function Users() {
   }
 
   async function loadUsers(token = null) {
+    const client = getClient();
     const isLoadingMore = !!token;
     
     if (isLoadingMore) {
@@ -121,6 +125,7 @@ function Users() {
   }
 
   async function handleDelete(userId, userName) {
+    const client = getClient();
     const confirmed = window.confirm(
       `¿Estás seguro de eliminar a ${userName || 'este usuario'}?`
     );

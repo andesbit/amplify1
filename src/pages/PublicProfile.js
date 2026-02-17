@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import './PublicProfile.css';
+import { getClient } from '../utils/apiClient.js';
 
-const publicClient = generateClient({
-  authMode: 'apiKey'
-});
+//const publicClient = generateClient({
+//  authMode: 'apiKey'
+//});
 
-const authClient = generateClient();
+//const authClient = generateClient();
 
 function PublicProfile() {
   const { userId } = useParams();
@@ -64,6 +65,7 @@ function PublicProfile() {
   }
 
   async function loadUserProfile() {
+    const publicClient = getClient('apiKey');
     try {
       const { data: profiles } = await publicClient.models.UserProfile.list({
         filter: { userId: { eq: userId } }
@@ -83,6 +85,7 @@ function PublicProfile() {
   }
 
   async function loadUserImages(userId) {
+    const publicClient = getClient('apiKey');
     try {
       const { data } = await publicClient.models.UserImage.list({
         filter: { userId: { eq: userId } }
@@ -134,6 +137,7 @@ function PublicProfile() {
   }
 
   async function loadMessages() {
+    const authClient = getClient('userPool');
     setLoadingMessages(true);
     try {
       // Cargar mensajes entre el usuario actual y el perfil visitado
@@ -176,7 +180,7 @@ function PublicProfile() {
 
   async function handleSendMessage(e) {
     e.preventDefault();
-    
+    const authClient = getClient('userPool');    
     if (!newMessage.trim()) return;
     if (!isAuthenticated) {
       setMessageStatus('⚠️ Debes iniciar sesión para enviar mensajes');

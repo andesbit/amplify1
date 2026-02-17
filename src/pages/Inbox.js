@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import './Inbox.css';
-
-const client = generateClient();
-const publicClient = generateClient({
-  authMode: 'apiKey'
-});
+import { getClient } from '../utils/apiClient.js';
+//const client = generateClient();
+//const publicClient = generateClient({
+//  authMode: 'apiKey'
+//});
 
 function Inbox() {
   const navigate = useNavigate();
@@ -33,6 +33,10 @@ function Inbox() {
   }
 
   async function loadConversations(userId) {
+
+    const client = getClient('userPool')
+    const publicClient = getClient('apiKey')
+
     try {
       // Obtener todos los mensajes enviados y recibidos
       const { data: received } = await client.models.Message.list({

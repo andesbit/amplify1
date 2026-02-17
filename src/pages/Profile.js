@@ -3,11 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
+import { getClient } from '../utils/apiClient.js';
 import imageCompression from 'browser-image-compression';
 import './Profile.css';
 
-const client = generateClient();
+//const client = generateClient();
+import { deleteUser } from 'aws-amplify/auth';
+
+
 
 function Profile() {
   const navigate = useNavigate();
@@ -24,6 +28,9 @@ function Profile() {
   const [message, setMessage] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  // Estado para el modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     loadUserProfile();
@@ -31,6 +38,7 @@ function Profile() {
 
   async function loadUserProfile() {
     try {
+      const client = getClient('userPool');
       const currentUser = await getCurrentUser();
       setUser(currentUser);
 
@@ -155,6 +163,7 @@ function Profile() {
     e.preventDefault();
     setSaving(true);
     setMessage('');
+    const client = getClient('userPool'); 
 
     try {
       const { data: existingProfiles } = await client.models.UserProfile.list({
@@ -196,6 +205,73 @@ function Profile() {
       ...prev,
       [name]: value
     }));
+  }
+
+  async function handleDeleteAccount() {
+    setDeleting(true);
+    try {
+      const client = getClient('userPool');
+
+      // 1. Elimina imágenes de S3
+      const { data: images } = await client.models.UserImage.list({
+        filter: { userId: { eq: user.userId } }
+      });
+      for (const image of images) {
+        try {
+          await remove({ path: image.imageKey });
+        } catch (error) {
+          console.error('Error eliminando imagen:', error);
+        }
+      }
+
+      // 2. Elimina foto de perfil de S3
+      if (profile.profilePicture) {
+        try {
+          await remove({ path: profile.profilePicture });
+        } catch (error) {
+          console.error('Error eliminando foto de perfil:', error);
+        }
+      }
+
+      // 3. Elimina registros UserImage de DynamoDB
+      for (const image of images) {
+        await client.models.UserImage.delete({ id: image.id });
+      }
+
+      // 4. Elimina mensajes de DynamoDB
+      const { data: sentMessages } = await client.models.Message.list({
+        filter: { senderId: { eq: user.userId } }
+      });
+      for (const message of sentMessages) {
+        await client.models.Message.delete({ id: message.id });
+      }
+
+      const { data: receivedMessages } = await client.models.Message.list({
+        filter: { receiverId: { eq: user.userId } }
+      });
+      for (const message of receivedMessages) {
+        await client.models.Message.delete({ id: message.id });
+      }
+
+      // 5. Elimina UserProfile de DynamoDB
+      const { data: profiles } = await client.models.UserProfile.list({
+        filter: { userId: { eq: user.userId } }
+      });
+      if (profiles && profiles.length > 0) {
+        await client.models.UserProfile.delete({ id: profiles[0].id });
+      }
+
+      // 6. Elimina cuenta de Cognito (debe ser lo último)
+      await deleteUser();
+
+      // 7. Redirige al inicio
+      navigate('/');
+
+    } catch (error) {
+      console.error('Error eliminando cuenta:', error);
+      setMessage('❌ Error al eliminar la cuenta. Intenta de nuevo.');
+      setDeleting(false);
+    }
   }
 
   if (loading) {
@@ -305,10 +381,58 @@ function Profile() {
             </div>
           )}
         </form>
-
+        
         <button onClick={() => navigate('/dashboard')} className="btn-back">
           Volver al Dashboard
         </button>
+
+
+
+  {/* Botón eliminar cuenta */}
+        <div className="delete-account-section">
+          <button
+            type="button"
+            onClick={() => setShowDeleteModal(true)}
+            className="btn-delete-account"
+          >
+            🗑️ Eliminar mi cuenta
+          </button>
+        </div>
+
+        {/* Modal de confirmación */}
+        {showDeleteModal && (
+          <div className="modal-overlay">
+            <div className="modal-container">
+              <h2>⚠️ Eliminar cuenta</h2>
+              <p>Esta acción es <strong>irreversible</strong>. Se eliminarán:</p>
+              <ul>
+                <li>✅ Tu cuenta de acceso</li>
+                <li>✅ Tu perfil y datos</li>
+                <li>✅ Todas tus imágenes</li>
+                <li>✅ Todos tus mensajes</li>
+              </ul>
+              <p>¿Estás seguro de que deseas eliminar tu cuenta?</p>
+              <div className="modal-buttons">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="btn-cancel"
+                  disabled={deleting}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="btn-confirm-delete"
+                  disabled={deleting}
+                >
+                  {deleting ? '⏳ Eliminando...' : '🗑️ Sí, eliminar mi cuenta'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        
       </div>
     </div>
   );

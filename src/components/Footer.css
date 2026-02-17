@@ -1,19 +1,16 @@
-/* ============================================
-   FOOTER STYLES
-   ============================================ */
 
 .footer {
-    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
-    /*background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);*/
-    /*background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);*/
-    /*background: linear-gradient(135deg, #696868 0%, #b48b5f 100%);*/
-    /*background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);*/
     background-color:#696868;
      font-size: 16px; 
     color: #ffffff;
     margin-top: 80px;
     padding: 40px 0 20px;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+
+
+
+    margin-top: auto;
+  width: 100%;
 }
 
 .footer .container {

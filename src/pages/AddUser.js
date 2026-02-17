@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import './AddUser.css';
+import { getClient } from '../utils/apiClient.js';
 
-const client = generateClient();
+//const client = generateClient();
 
 function AddUser() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function AddUser() {
     e.preventDefault();
     setSaving(true);
     setMessage('');
-
+    const client = getClient('userPool');
     try {
       const currentUser = await getCurrentUser();
       const randomId = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

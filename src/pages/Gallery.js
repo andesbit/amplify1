@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
-import { generateClient } from 'aws-amplify/data';
+//import { generateClient } from 'aws-amplify/data';
 import imageCompression from 'browser-image-compression';
 import './Gallery.css';
+import { getClient } from '../utils/apiClient.js';
 
-const client = generateClient();
+
+//const client = generateClient();
 
 function Gallery() {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ function Gallery() {
   }
 
   async function loadGallery(userId) {
+    const client = getClient('userPool'); 
     try {
       const { data } = await client.models.UserImage.list({
         filter: { userId: { eq: userId } }
@@ -75,6 +78,7 @@ function Gallery() {
 
   async function handleImageUpload(event) {
     const file = event.target.files[0];
+    const client = getClient('userPool'); 
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
@@ -146,6 +150,8 @@ function Gallery() {
 
   async function handleDeleteImage(imageId, imagePath) {
     const confirmed = window.confirm('¿Estás seguro de eliminar esta imagen?');
+    const client = getClient('userPool'); 
+
     if (!confirmed) return;
 
     setDeletingId(imageId);
@@ -169,6 +175,7 @@ function Gallery() {
   }
 
   async function handleUpdateDescription(imageId, newDescription) {
+    const client = getClient('userPool'); 
     try {
       await client.models.UserImage.update({
         id: imageId,
