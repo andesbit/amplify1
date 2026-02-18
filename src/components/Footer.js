@@ -8,7 +8,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-
+        
         <div className="footer-row">
           <div className="footer-col">
             <h3>Ofertio</h3>
@@ -38,15 +38,17 @@ function Footer() {
 
         <div className="footer-bottom">
           <div className="footer-logo">
-            <Link 
-              to="/images/SKM_C654e25112616540.pdf" 
-              download="InformeFinal.pdf" 
-              className="footer-download" 
-              title="Descargar informe"
+            <a                    
+              href="https://www.paypal.com/donate/?business=LNJF5ZCQMVBTE&no_recurring=0&currency_code=USD"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-donate"
+              title="Apoyar con una donación"
             >
-              📄
-            </Link>
+              💝 Donar
+            </a>
           </div>
+
           <div className="footer-credits">
             Desarrollado por{' '}
             <a 

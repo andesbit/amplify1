@@ -173,3 +173,29 @@
 .footer {
     animation: fadeInUp 0.6s ease-out;
 }
+
+.footer-donate {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0070ba 0%, #1f8ac0 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 112, 186, 0.3);
+}
+
+.footer-donate:hover {
+  background: linear-gradient(135deg, #005a94 0%, #1a6d9e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 112, 186, 0.4);
+  color: white;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
