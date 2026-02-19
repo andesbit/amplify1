@@ -37,7 +37,7 @@ function Footer() {
         </p>
 
         <div className="footer-bottom">
-          <div className="footer-logo">
+         {/* <div className="footer-logo">
             <a                    
               href="https://www.paypal.com/donate/?business=LNJF5ZCQMVBTE&no_recurring=0&currency_code=USD"
               target="_blank"
@@ -48,7 +48,7 @@ function Footer() {
               💝 Donar
             </a>
           </div>
-
+          */}
           <div className="footer-credits">
             Desarrollado por{' '}
             <a 
