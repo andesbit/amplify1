@@ -12,6 +12,7 @@ import { getClient } from '../utils/apiClient.js';
 
 function Gallery() {
   const navigate = useNavigate();
+  const MAX_IMAGES = 6; // ← AGREGA ESTA LÍNEA
   const [user, setUser] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,10 +77,18 @@ function Gallery() {
     setImageUrls(urls);
   }
 
+
   async function handleImageUpload(event) {
     const file = event.target.files[0];
     const client = getClient('userPool'); 
     if (!file) return;
+
+    // ✅ AGREGA ESTA VALIDACIÓN
+    if (images.length >= MAX_IMAGES) {
+      setMessage(`❌ Has alcanzado el límite de ${MAX_IMAGES} imágenes`);
+      event.target.value = '';
+      return;
+    }
 
     if (!file.type.startsWith('image/')) {
       setMessage('❌ Por favor selecciona una imagen válida');
@@ -208,7 +217,14 @@ function Gallery() {
 
         {/* Subir nueva imagen */}
         <div className="upload-section">
-          <h3>Agregar Nueva Imagen</h3>
+          <h3>Agregar Nueva Imagen ({images.length}/{MAX_IMAGES})</h3>
+  
+          {images.length >= MAX_IMAGES && (
+            <div className="alert alert-warning">
+              ⚠️ Has alcanzado el límite de {MAX_IMAGES} imágenes. Elimina alguna para subir más.
+            </div>
+          )}
+          
           <div className="upload-form">
             <input
               type="text"
@@ -216,23 +232,26 @@ function Gallery() {
               value={newImageDescription}
               onChange={(e) => setNewImageDescription(e.target.value)}
               className="description-input"
-              disabled={uploading}
+              disabled={uploading || images.length >= MAX_IMAGES}
             />
             <input
               type="file"
               id="galleryImageUpload"
               accept="image/*"
               onChange={handleImageUpload}
-              disabled={uploading}
+              disabled={uploading || images.length >= MAX_IMAGES}
               style={{ display: 'none' }}
             />
             <label 
               htmlFor="galleryImageUpload" 
-              className={`btn-upload-gallery ${uploading ? 'disabled' : ''}`}
+              className={`btn-upload-gallery ${(uploading || images.length >= MAX_IMAGES) ? 'disabled' : ''}`}
             >
-              {uploading ? 'Subiendo...' : '📷 Seleccionar Imagen'}
+              {uploading ? 'Subiendo...' : 
+              images.length >= MAX_IMAGES ? '🚫 Límite alcanzado' : 
+              '📷 Seleccionar Imagen'}
             </label>
           </div>
+          
           {message && (
             <div className={`message ${message.includes('❌') ? 'error' : message.includes('...') ? 'info' : 'success'}`}>
               {message}
