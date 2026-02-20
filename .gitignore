@@ -27,3 +27,5 @@ yarn-error.log*
 # amplify
 
 .amplify
+amplify_outputs.json
+src/amplify_outputs.json
