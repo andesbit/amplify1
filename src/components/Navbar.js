@@ -34,7 +34,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-             <span class="o">&nbsp;O</span><span class="fertio">fertio</span>
+             <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
         </Link>
 
         <ul className="navbar-menu">
