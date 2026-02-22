@@ -48,5 +48,5 @@ export const auth = defineAuth({
 });
 
 // Protección contra recreación accidental del User Pool (agrega al final)
-const { cfnUserPool } = auth.resources.cfnResources;
-cfnUserPool.deletionProtection = 'ACTIVE';
+//const { cfnUserPool } = auth.resources.cfnResources;
+//cfnUserPool.deletionProtection = 'ACTIVE';
