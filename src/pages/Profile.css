@@ -11,3 +11,43 @@
   color: #0c5460;
   border: 1px solid #bee5eb;
 }
+
+.username-input-wrapper {
+  position: relative;
+}
+
+.input-success {
+  border-color: #28a745 !important;
+}
+
+.input-error {
+  border-color: #dc3545 !important;
+}
+
+.username-status {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.username-status.checking {
+  color: #6c757d;
+}
+
+.username-status.available {
+  color: #28a745;
+}
+
+.username-status.taken {
+  color: #dc3545;
+}
+
+.username-hint {
+  display: block;
+  margin-top: 0.25rem;
+  color: #6c757d;
+  font-size: 12px;
+}

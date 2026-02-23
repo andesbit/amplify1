@@ -18,7 +18,7 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState({
     name: '',
-    age: '',
+    userName: '',
     bio: '',
     offer: '',
     profilePicture: ''
@@ -31,6 +31,46 @@ function Profile() {
   // Estado para el modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const [checkingUsername, setCheckingUsername] = useState(false);
+
+  // Debounce para no hacer queries a cada tecla
+  useEffect(() => {
+    if (profile.username && profile.username.length >= 3) {
+      const timeoutId = setTimeout(() => {
+        checkUsernameAvailability(profile.username);
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      setUsernameAvailable(null);
+    }
+  }, [profile.username]);
+
+  async function checkUsernameAvailability(username) {
+    setCheckingUsername(true);
+    const client = getClient('userPool');
+
+    try {
+      const { data } = await client.models.UserProfile.list({
+        filter: { username: { eq: username } }
+      });
+
+      // Si encuentra resultados y NO es el usuario actual
+      if (data && data.length > 0) {
+        const isCurrentUser = data[0].userId === user.userId;
+        setUsernameAvailable(isCurrentUser ? true : false);
+      } else {
+        setUsernameAvailable(true);
+      }
+    } catch (error) {
+      console.error('Error verificando username:', error);
+      setUsernameAvailable(null);
+    } finally {
+      setCheckingUsername(false);
+    }
+  }
 
   useEffect(() => {
     loadUserProfile();
@@ -50,7 +90,7 @@ function Profile() {
         const userProfile = profiles[0];
         setProfile({
           name: userProfile.name || '',
-          age: userProfile.age || '',
+          username: userProfile.username || '',
           bio: userProfile.bio || '',
           offer: userProfile.offer || '',
           profilePicture: userProfile.profilePicture || ''
@@ -161,6 +201,13 @@ function Profile() {
 
   async function handleSave(e) {
     e.preventDefault();
+      
+    // Bloquear si username no está disponible
+    if (usernameAvailable === false) {
+      setMessage('❌ Ese nombre de usuario ya está en uso. Elige otro.');
+      return;
+    }
+
     setSaving(true);
     setMessage('');
     const client = getClient('userPool'); 
@@ -174,7 +221,8 @@ function Profile() {
         await client.models.UserProfile.update({
           id: existingProfiles[0].id,
           name: profile.name,
-          age: profile.age ? parseInt(profile.age) : null,
+          username: profile.username,
+          //age: profile.age ? parseInt(profile.age) : null,
           bio: profile.bio,
           offer: profile.offer,
           profilePicture: profile.profilePicture
@@ -183,8 +231,9 @@ function Profile() {
       } else {
         await client.models.UserProfile.create({
           userId: user.userId,
-          name: profile.name,
-          age: profile.age ? parseInt(profile.age) : null,
+          name: profile.name,          
+          //age: profile.age ? parseInt(profile.age) : null,
+          username: profile.username,
           bio: profile.bio,
           offer: profile.offer,
           profilePicture: profile.profilePicture
@@ -333,7 +382,7 @@ function Profile() {
             />
           </div>
 
-          <div className="form-group">
+          {/*<div className="form-group">
             <label htmlFor="age">Edad</label>
             <input
               type="number"
@@ -345,6 +394,44 @@ function Profile() {
               min="1"
               max="120"
             />
+          </div>
+          */}
+          <div className="form-group">
+            <label htmlFor="username">Nombre de Usuario (único) *</label>
+            <div className="username-input-wrapper">
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={profile.username}
+                onChange={handleChange}
+                placeholder="usuario_unico"
+                required
+                pattern="^[a-zA-Z0-9_]{3,20}$"
+                title="Solo letras, números y guión bajo. Entre 3 y 20 caracteres."
+                className={
+                  profile.username.length >= 3 
+                    ? usernameAvailable === true 
+                      ? 'input-success' 
+                      : usernameAvailable === false 
+                      ? 'input-error' 
+                      : ''
+                    : ''
+                }
+              />
+              {checkingUsername && (
+                <span className="username-status checking">⏳ Verificando...</span>
+              )}
+              {!checkingUsername && usernameAvailable === true && (
+                <span className="username-status available">✅ Disponible</span>
+              )}
+              {!checkingUsername && usernameAvailable === false && (
+                <span className="username-status taken">❌ Ya está en uso</span>
+              )}
+            </div>
+            <small className="username-hint">
+              Solo letras, números y guión bajo (_). Mínimo 3 caracteres.
+            </small>
           </div>
 
           <div className="form-group">

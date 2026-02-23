@@ -1,21 +1,23 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-const schema = a.schema({
+const schema = a.schema({  
   UserProfile: a
     .model({
       userId: a.string().required(),
       name: a.string(),
-      age: a.integer(),
+      username: a.string().required(),
       bio: a.string(),
-      profilePicture: a.string(),
       offer: a.string(),
-      images: a.hasMany('UserImage', 'userId'),
+      profilePicture: a.string(),
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.publicApiKey().to(['read'])
+      allow.publicApiKey().to(['read'])  // ← AGREGA ESTO
+    ])
+    .secondaryIndexes((index) => [
+      index('username')
     ]),
-
+    
   UserImage: a
     .model({
       userId: a.string().required(),
