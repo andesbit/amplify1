@@ -28,11 +28,12 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/add-user" element={<AddUser />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/user/:userId" element={<PublicProfile />} />
+        {/*<Route path="/user/:userId" element={<PublicProfile />} />*/}
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/terminos" element={<Terminos />} />
         <Route path="/privacidad" element={<Privacidad />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/:userName" element={<PublicProfile />} />  {/* ← AL FINAL */}
       </Routes>
       <Footer />
     </Router>

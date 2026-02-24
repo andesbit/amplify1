@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-//import { generateClient } from 'aws-amplify/data';
 import './Users.css';
 import { getClient } from '../utils/apiClient.js';
-
-// Elimina: const client = generateClient(...)
-
-//const client = generateClient();
 
 function Users() {
   const navigate = useNavigate();
@@ -115,10 +110,10 @@ function Users() {
 
     const results = users.filter(user => {
       const matchName = user.name?.toLowerCase().includes(term);
+      const matchUsername = user.userName?.toLowerCase().includes(term);  // ← NUEVO
       const matchBio = user.bio?.toLowerCase().includes(term);
-      const matchAge = user.age?.toString().includes(term);
       const matchOffer = user.offer?.toLowerCase().includes(term);
-      return matchName || matchBio || matchAge || matchOffer;
+      return matchName || matchUsername || matchBio || matchOffer;  // ← Incluye userName
     });
 
     setFilteredUsers(results);
@@ -144,6 +139,10 @@ function Users() {
     } finally {
       setDeletingId(null);
     }
+  }
+
+  function handleUserClick(userName) {  // ← Nuevo
+    navigate(`/${userName}`);
   }
 
   function handleLoadMore() {
@@ -173,7 +172,7 @@ function Users() {
             <div className="search-box">
               <input
                 type="text"
-                placeholder="Buscar por nombre, edad, biografía u oferta..."
+                placeholder="Buscar por nombre, usuario, biografía u oferta..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -209,7 +208,12 @@ function Users() {
           <>
             <div className="users-grid">
               {displayUsers.map((user) => (
-                <div key={user.id} className="user-card">
+                <div 
+                  key={user.id} 
+                  className="user-card"
+                  onClick={() => !isAdmin && handleUserClick(user.userName)} 
+                  style={{ cursor: !isAdmin ? 'pointer' : 'default' }}
+                >
                   <div className="user-avatar">
                     {userImages[user.id] ? (
                       <img src={userImages[user.id]} alt={user.name} />
@@ -219,7 +223,7 @@ function Users() {
                   </div>
                   <div className="user-info">
                     <h3>{user.name || 'Sin nombre'}</h3>
-                    {user.age && <p className="user-age">Edad: {user.age} años</p>}
+                    <p className="user-username">@{user.userName || 'usuario'}</p>  {/* ← NUEVO */}
                     {user.bio && <p className="user-bio">{user.bio}</p>}
                     {user.offer && (
                       <div className="user-offer">
@@ -230,7 +234,10 @@ function Users() {
                   
                   {isAdmin && (
                     <button
-                      onClick={() => handleDelete(user.id, user.name)}
+                      onClick={(e) => {
+                        e.stopPropagation();  // ← Evita que se active el click del card
+                        handleDelete(user.id, user.name);
+                      }}
                       className="btn-delete"
                       disabled={deletingId === user.id}
                       title="Eliminar usuario"

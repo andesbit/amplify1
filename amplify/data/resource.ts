@@ -5,26 +5,27 @@ const schema = a.schema({
     .model({
       userId: a.string().required(),
       name: a.string(),
-      username: a.string().required(),
+      userName: a.string().required(),
       bio: a.string(),
       offer: a.string(),
       profilePicture: a.string(),
+      images: a.hasMany('UserImage', 'userId'),  // ← AGREGA ESTA LÍNEA
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.publicApiKey().to(['read'])  // ← AGREGA ESTO
+      allow.publicApiKey().to(['read'])
     ])
     .secondaryIndexes((index) => [
-      index('username')
+      index('userName')
     ]),
-    
+
   UserImage: a
     .model({
       userId: a.string().required(),
       imagePath: a.string().required(),
       description: a.string(),
       order: a.integer(),
-      userProfile: a.belongsTo('UserProfile', 'userId'),
+      userProfile: a.belongsTo('UserProfile', 'userId'),  // ← Ya estaba
     })
     .authorization((allow) => [
       allow.owner(),
@@ -33,15 +34,13 @@ const schema = a.schema({
 
   Message: a
     .model({
-      fromUserId: a.string().required(),
-      toUserId: a.string().required(),
+      senderId: a.string().required(),  // ← Cambié de fromUserId
+      receiverId: a.string().required(),  // ← Cambié de toUserId
       content: a.string().required(),
       read: a.boolean().default(false),
-      createdAt: a.datetime(),
     })
     .authorization((allow) => [
-      allow.authenticated().to(['create', 'read']),
-      allow.owner().to(['read', 'update', 'delete'])
+      allow.owner()
     ]),
 });
 

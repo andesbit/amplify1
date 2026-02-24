@@ -32,41 +32,41 @@ function Profile() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const [userNameAvailable, setUserNameAvailable] = useState(null);
   const [checkingUsername, setCheckingUsername] = useState(false);
 
   // Debounce para no hacer queries a cada tecla
   useEffect(() => {
-    if (profile.username && profile.username.length >= 3) {
+    if (profile.userName && profile.userName.length >= 3) {
       const timeoutId = setTimeout(() => {
-        checkUsernameAvailability(profile.username);
+        checkUsernameAvailability(profile.userName);
       }, 500);
 
       return () => clearTimeout(timeoutId);
     } else {
-      setUsernameAvailable(null);
+      setUserNameAvailable(null);
     }
-  }, [profile.username]);
+  }, [profile.userName]);
 
-  async function checkUsernameAvailability(username) {
+  async function checkUsernameAvailability(userName) {
     setCheckingUsername(true);
     const client = getClient('userPool');
 
     try {
       const { data } = await client.models.UserProfile.list({
-        filter: { username: { eq: username } }
+        filter: { userName: { eq: userName } }
       });
 
       // Si encuentra resultados y NO es el usuario actual
       if (data && data.length > 0) {
         const isCurrentUser = data[0].userId === user.userId;
-        setUsernameAvailable(isCurrentUser ? true : false);
+        setUserNameAvailable(isCurrentUser ? true : false);
       } else {
-        setUsernameAvailable(true);
+        setUserNameAvailable(true);
       }
     } catch (error) {
-      console.error('Error verificando username:', error);
-      setUsernameAvailable(null);
+      console.error('Error verificando userName:', error);
+      setUserNameAvailable(null);
     } finally {
       setCheckingUsername(false);
     }
@@ -90,7 +90,7 @@ function Profile() {
         const userProfile = profiles[0];
         setProfile({
           name: userProfile.name || '',
-          username: userProfile.username || '',
+          userName: userProfile.userName || '',
           bio: userProfile.bio || '',
           offer: userProfile.offer || '',
           profilePicture: userProfile.profilePicture || ''
@@ -199,54 +199,109 @@ function Profile() {
     }
   }
 
-  async function handleSave(e) {
-    e.preventDefault();
-      
-    // Bloquear si username no está disponible
-    if (usernameAvailable === false) {
-      setMessage('❌ Ese nombre de usuario ya está en uso. Elige otro.');
-      return;
-    }
-
-    setSaving(true);
-    setMessage('');
-    const client = getClient('userPool'); 
-
-    try {
-      const { data: existingProfiles } = await client.models.UserProfile.list({
-        filter: { userId: { eq: user.userId } }
-      });
-
-      if (existingProfiles && existingProfiles.length > 0) {
-        await client.models.UserProfile.update({
-          id: existingProfiles[0].id,
-          name: profile.name,
-          username: profile.username,
-          //age: profile.age ? parseInt(profile.age) : null,
-          bio: profile.bio,
-          offer: profile.offer,
-          profilePicture: profile.profilePicture
-        });
-        setMessage('✅ Perfil actualizado correctamente');
-      } else {
-        await client.models.UserProfile.create({
-          userId: user.userId,
-          name: profile.name,          
-          //age: profile.age ? parseInt(profile.age) : null,
-          username: profile.username,
-          bio: profile.bio,
-          offer: profile.offer,
-          profilePicture: profile.profilePicture
-        });
-        setMessage('✅ Perfil creado correctamente');
-      }
-    } catch (error) {
-      console.error('Error guardando perfil:', error);
-      setMessage('❌ Error al guardar el perfil');
-    } finally {
-      setSaving(false);
-    }
+async function handleSave(e) {
+  console.log('🔥 handleSave ejecutado!', e);
+  e.preventDefault();
+  
+  console.log('1. profile:', profile);
+  console.log('2. profile.userName:', profile.userName);
+  console.log('3. userName length:', profile.userName?.trim().length);
+  
+  // Validación: username no puede estar vacío
+  if (!profile.userName || profile.userName.trim().length < 3) {
+    console.log('❌ DETENIDO: Username inválido');
+    setMessage('❌ El nombre de usuario debe tener al menos 3 caracteres');
+    return;
   }
+  
+  console.log('4. userNameAvailable:', userNameAvailable);
+  
+  // Bloquear si username no está disponible
+  if (userNameAvailable === false) {
+    console.log('❌ DETENIDO: Username no disponible');
+    setMessage('❌ Ese nombre de usuario ya está en uso. Elige otro.');
+    return;
+  }
+  
+  console.log('5. Pasó validaciones, iniciando guardado...');
+  setSaving(true);
+  setMessage('');
+  const client = getClient('userPool');
+  
+  console.log('6. Cliente obtenido:', client);
+  
+  try {
+    console.log('7. user.userId:', user.userId);
+    console.log('7b. Buscando perfiles existentes...');
+    
+    const { data: existingProfiles } = await client.models.UserProfile.list({
+      filter: { userId: { eq: user.userId } }
+    });
+    
+    console.log('8. Perfiles encontrados:', existingProfiles);
+    
+    if (existingProfiles && existingProfiles.length > 0) {
+      console.log('9. Actualizando perfil existente...');
+      console.log('Datos a actualizar:', {
+        id: existingProfiles[0].id,
+        userId: user.userId,
+        name: profile.name,
+        userName: profile.userName,
+        bio: profile.bio,
+        offer: profile.offer,
+        profilePicture: profile.profilePicture
+      });
+      
+      const result = await client.models.UserProfile.update({
+        id: existingProfiles[0].id,
+        userId: user.userId,
+        name: profile.name,
+        userName: profile.userName,
+        bio: profile.bio,
+        offer: profile.offer,
+        profilePicture: profile.profilePicture
+      });
+      
+      console.log('✅ Resultado update:', result);
+      setMessage('✅ Perfil actualizado correctamente');
+      
+    } else {
+      console.log('10. Creando nuevo perfil...');
+      console.log('Datos a crear:', {
+        userId: user.userId,
+        name: profile.name,
+        userName: profile.userName,
+        bio: profile.bio,
+        offer: profile.offer,
+        profilePicture: profile.profilePicture
+      });
+      
+      const result = await client.models.UserProfile.create({
+        userId: user.userId,
+        name: profile.name,
+        userName: profile.userName,
+        bio: profile.bio,
+        offer: profile.offer,
+        profilePicture: profile.profilePicture
+      });
+      
+      console.log('✅ Resultado create:', result);
+      console.log('🔍 Errores detallados:', result.errors);  // ← AGREGA ESTA LÍNEA
+
+      setMessage('✅ Perfil creado correctamente');
+    }
+    
+  } catch (error) {
+    console.error('❌ Error completo:', error);
+    console.error('❌ Error.message:', error.message);
+    console.error('❌ Error.errors:', error.errors);
+    setMessage('❌ Error al guardar el perfil: ' + error.message);
+  } finally {
+    setSaving(false);
+  }
+}
+
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -402,18 +457,18 @@ function Profile() {
               <input
                 type="text"
                 id="username"
-                name="username"
-                value={profile.username}
+                name="userName"
+                value={profile.userName}
                 onChange={handleChange}
                 placeholder="usuario_unico"
                 required
                 pattern="^[a-zA-Z0-9_]{3,20}$"
                 title="Solo letras, números y guión bajo. Entre 3 y 20 caracteres."
                 className={
-                  profile.username.length >= 3 
-                    ? usernameAvailable === true 
+                  profile.userName.length >= 3 
+                    ? userNameAvailable === true 
                       ? 'input-success' 
-                      : usernameAvailable === false 
+                      : userNameAvailable === false 
                       ? 'input-error' 
                       : ''
                     : ''
@@ -422,10 +477,10 @@ function Profile() {
               {checkingUsername && (
                 <span className="username-status checking">⏳ Verificando...</span>
               )}
-              {!checkingUsername && usernameAvailable === true && (
+              {!checkingUsername && userNameAvailable === true && (
                 <span className="username-status available">✅ Disponible</span>
               )}
-              {!checkingUsername && usernameAvailable === false && (
+              {!checkingUsername && userNameAvailable === false && (
                 <span className="username-status taken">❌ Ya está en uso</span>
               )}
             </div>

@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-//import { generateClient } from 'aws-amplify/data';
 import './PublicProfile.css';
 import { getClient } from '../utils/apiClient.js';
 
-//const publicClient = generateClient({
-//  authMode: 'apiKey'
-//});
-
-//const authClient = generateClient();
-
 function PublicProfile() {
-  const { userId } = useParams();
+  const { userName } = useParams();  // ← Cambiado de userId a userName
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);  // ← Nuevo: guardar userId después de buscar
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
@@ -31,9 +25,13 @@ function PublicProfile() {
   const [loadingMessages, setLoadingMessages] = useState(false);
 
   useEffect(() => {
+    if (!userName) {
+      navigate('/');
+      return;
+    }
     checkAuthStatus();
     loadUserProfile();
-  }, [userId]);
+  }, [userName]);
 
   useEffect(() => {
     if (user?.profilePicture) {
@@ -46,10 +44,10 @@ function PublicProfile() {
   }, [images]);
 
   useEffect(() => {
-    if (currentUser && user) {
+    if (currentUser && userId) {
       loadMessages();
     }
-  }, [currentUser, user]);
+  }, [currentUser, userId]);
 
   async function checkAuthStatus() {
     try {
@@ -66,19 +64,27 @@ function PublicProfile() {
 
   async function loadUserProfile() {
     const publicClient = getClient('apiKey');
+    setLoading(true);
+    
     try {
+      // Buscar por userName en lugar de userId
       const { data: profiles } = await publicClient.models.UserProfile.list({
-        filter: { userId: { eq: userId } }
+        filter: { userName: { eq: userName } }
       });
 
-      if (profiles && profiles.length > 0) {
-        setUser(profiles[0]);
-        await loadUserImages(userId);
-      } else {
+      if (!profiles || profiles.length === 0) {
         setUser(null);
+        setLoading(false);
+        return;
       }
+
+      const userProfile = profiles[0];
+      setUser(userProfile);
+      setUserId(userProfile.userId);  // Guardar userId para otros usos
+      await loadUserImages(userProfile.userId);
     } catch (error) {
       console.error('Error cargando perfil:', error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -143,15 +149,15 @@ function PublicProfile() {
       // Cargar mensajes entre el usuario actual y el perfil visitado
       const { data: sent } = await authClient.models.Message.list({
         filter: {
-          fromUserId: { eq: currentUser.userId },
-          toUserId: { eq: userId }
+          senderId: { eq: currentUser.userId },
+          receiverId: { eq: userId }
         }
       });
 
       const { data: received } = await authClient.models.Message.list({
         filter: {
-          fromUserId: { eq: userId },
-          toUserId: { eq: currentUser.userId }
+          senderId: { eq: userId },
+          receiverId: { eq: currentUser.userId }
         }
       });
 
@@ -181,7 +187,9 @@ function PublicProfile() {
   async function handleSendMessage(e) {
     e.preventDefault();
     const authClient = getClient('userPool');    
+    
     if (!newMessage.trim()) return;
+    
     if (!isAuthenticated) {
       setMessageStatus('⚠️ Debes iniciar sesión para enviar mensajes');
       return;
@@ -198,11 +206,10 @@ function PublicProfile() {
 
     try {
       await authClient.models.Message.create({
-        fromUserId: currentUser.userId,
-        toUserId: userId,
+        senderId: currentUser.userId,
+        receiverId: userId,
         content: newMessage.trim(),
-        read: false,
-        createdAt: new Date().toISOString()
+        read: false
       });
 
       setMessageStatus('✅ Mensaje enviado');
@@ -227,7 +234,7 @@ function PublicProfile() {
       <div className="public-profile-container">
         <div className="not-found">
           <h2>Usuario no encontrado</h2>
-          <p>El perfil que buscas no existe.</p>
+          <p>El perfil que buscas no existe o el nombre de usuario es incorrecto.</p>
           <button onClick={() => navigate('/')} className="btn-back-home">
             Volver al Inicio
           </button>
@@ -255,7 +262,7 @@ function PublicProfile() {
           </div>
           <div className="profile-info-public">
             <h1>{user.name || 'Sin nombre'}</h1>
-            {user.age && <p className="user-age-public">🎂 {user.age} años</p>}
+            <p className="user-username-public">@{user.userName}</p>
             {user.bio && <p className="user-bio-public">{user.bio}</p>}
           </div>
         </div>
@@ -293,7 +300,7 @@ function PublicProfile() {
                         messages.map((msg) => (
                           <div 
                             key={msg.id} 
-                            className={`message-bubble ${msg.fromUserId === currentUser.userId ? 'sent' : 'received'}`}
+                            className={`message-bubble ${msg.senderId === currentUser.userId ? 'sent' : 'received'}`}
                           >
                             <p>{msg.content}</p>
                             <span className="message-time">

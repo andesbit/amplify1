@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-//import { generateClient } from 'aws-amplify/data';
 import './Home.css';
-
-//const client = generateClient({
-//  authMode: 'apiKey'
-//});
-
-// DESPUÉS:
 import { getClient } from '../utils/apiClient.js';
 
 function Home() {
@@ -88,6 +81,7 @@ function Home() {
   async function loadUsers(token = null) {
     const isLoadingMore = !!token;
     const client = getClient();
+    
     if (isLoadingMore) {
       setLoadingMore(true);
     } else {
@@ -125,22 +119,18 @@ function Home() {
     setLoading(true);
     setHasMore(false);
     const client = getClient();
+    
     try {
       const term = searchTerm.trim();
-      const ageNumber = parseInt(term);
-      const isValidAge = !isNaN(ageNumber) && ageNumber > 0;
 
       const filters = {
         or: [
           { name: { contains: term } },
+          { userName: { contains: term } },  // ← NUEVO: buscar por userName
           { bio: { contains: term } },
           { offer: { contains: term } }
         ]
       };
-
-      if (isValidAge) {
-        filters.or.push({ age: { eq: ageNumber } });
-      }
 
       const result = await client.models.UserProfile.list({
         filter: filters,
@@ -168,16 +158,13 @@ function Home() {
     loadUsers();
   }
 
-  function handleUserClick(userId) {
-    navigate(`/user/${userId}`);
+  function handleUserClick(userName) {  // ← Cambié parámetro a userName
+    navigate(`/${userName}`);  // ← URL amigable
   }
 
   return (
     <div className="home-container">
       <div className="home-content">
-        {/*<h1>Bienvenido a Mi Aplicación</h1>
-        <p>Una plataforma moderna para gestionar tus proyectos</p>
-        */}
 
         {isAdmin && (
           <div className="admin-panel">
@@ -190,24 +177,6 @@ function Home() {
           </div>
         )}
 
-        {/*<div className="home-features">
-          <div className="feature">
-            <span className="feature-icon">⚡</span>
-            <h3>Rápido y Seguro</h3>
-            <p>Autenticación segura con AWS</p>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">🎯</span>
-            <h3>Fácil de Usar</h3>
-            <p>Interfaz intuitiva y moderna</p>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">🚀</span>
-            <h3>Siempre Disponible</h3>
-            <p>Accede desde cualquier lugar</p>
-          </div>
-        </div>*/}
-
         <div className="users-section">
           <h2>Nuestros Usuarios y Ofertas</h2>
           
@@ -215,7 +184,7 @@ function Home() {
             <div className="search-box-home">
               <input
                 type="text"
-                placeholder="Buscar por nombre, edad, biografía u oferta..."
+                placeholder="Buscar por nombre, usuario, biografía u oferta..."  
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input-home"
@@ -256,7 +225,7 @@ function Home() {
                   <div 
                     key={user.id} 
                     className="user-card-home clickable"
-                    onClick={() => handleUserClick(user.userId)}
+                    onClick={() => handleUserClick(user.userName)}  
                   >
                     <div className="user-avatar-home">
                       {userImages[user.id] ? (
@@ -267,7 +236,7 @@ function Home() {
                     </div>
                     <div className="user-info-home">
                       <h3>{user.name || 'Sin nombre'}</h3>
-                      {user.age && <p className="user-age-home">Edad: {user.age} años</p>}
+                      <p className="user-username-home">@{user.userName || 'usuario'}</p>  {/* ← NUEVO */}
                       {user.bio && <p className="user-bio-home">{user.bio}</p>}
                       {user.offer && (
                         <div className="user-offer-home">

@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-//import { generateClient } from 'aws-amplify/data';
 import './Inbox.css';
 import { getClient } from '../utils/apiClient.js';
-//const client = generateClient();
-//const publicClient = generateClient({
-//  authMode: 'apiKey'
-//});
 
 function Inbox() {
   const navigate = useNavigate();
@@ -33,18 +28,17 @@ function Inbox() {
   }
 
   async function loadConversations(userId) {
-
-    const client = getClient('userPool')
-    const publicClient = getClient('apiKey')
+    const client = getClient('userPool');
+    const publicClient = getClient('apiKey');
 
     try {
       // Obtener todos los mensajes enviados y recibidos
       const { data: received } = await client.models.Message.list({
-        filter: { toUserId: { eq: userId } }
+        filter: { receiverId: { eq: userId } }  // ← Cambié de toUserId a receiverId
       });
 
       const { data: sent } = await client.models.Message.list({
-        filter: { fromUserId: { eq: userId } }
+        filter: { senderId: { eq: userId } }  // ← Cambié de fromUserId a senderId
       });
 
       // Agrupar mensajes por usuario
@@ -52,7 +46,7 @@ function Inbox() {
 
       // Procesar mensajes recibidos
       for (const msg of received || []) {
-        const otherUserId = msg.fromUserId;
+        const otherUserId = msg.senderId;  // ← Cambié de fromUserId
         
         if (!conversationsMap.has(otherUserId)) {
           conversationsMap.set(otherUserId, {
@@ -73,7 +67,7 @@ function Inbox() {
 
       // Procesar mensajes enviados
       for (const msg of sent || []) {
-        const otherUserId = msg.toUserId;
+        const otherUserId = msg.receiverId;  // ← Cambié de toUserId
         
         if (!conversationsMap.has(otherUserId)) {
           conversationsMap.set(otherUserId, {
@@ -145,8 +139,8 @@ function Inbox() {
     setProfileImages(images);
   }
 
-  function handleConversationClick(userId) {
-    navigate(`/user/${userId}`);
+  function handleConversationClick(userName) {  // ← Cambié parámetro a userName
+    navigate(`/${userName}`);  // ← URL amigable
   }
 
   if (loading) {
@@ -175,7 +169,7 @@ function Inbox() {
               <div 
                 key={conv.userId} 
                 className="conversation-item"
-                onClick={() => handleConversationClick(conv.userId)}
+                onClick={() => handleConversationClick(conv.userProfile?.userName)} 
               >
                 <div className="conversation-avatar">
                   {profileImages[conv.userId] ? (
@@ -190,13 +184,14 @@ function Inbox() {
                 <div className="conversation-info">
                   <div className="conversation-header-row">
                     <h3>{conv.userProfile?.name || 'Usuario'}</h3>
+                    <span className="username-inbox">@{conv.userProfile?.userName}</span> 
                     {conv.unreadCount > 0 && (
                       <span className="unread-badge">{conv.unreadCount}</span>
                     )}
                   </div>
                   
                   <p className="last-message">
-                    {conv.lastMessage.fromUserId === currentUser.userId && (
+                    {conv.lastMessage.senderId === currentUser.userId && (  // ← Cambié de fromUserId
                       <span className="you-prefix">Tú: </span>
                     )}
                     {conv.lastMessage.content.length > 60 
