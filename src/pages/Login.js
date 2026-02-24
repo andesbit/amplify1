@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { fetchAuthSession, signInWithRedirect } from 'aws-amplify/auth';
 import './Login.css';
 
+// Componente auxiliar para manejar la redirección
+function RedirectToDashboard({ user }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  if (user) {
+    return (
+      <div className="login-box">
+        <p>Redirigiendo al dashboard...</p>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function Login() {
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkAuthStatus();
   }, []);
 
@@ -71,7 +92,6 @@ function Login() {
             <span style={{ color: '#666', fontSize: '0.9rem' }}>O continúa con</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: '#ddd' }}></div>
           </div>
-          
           <button
             onClick={() => signInWithRedirect({ provider: 'Google' })}
             className="btn-google"
@@ -96,16 +116,7 @@ function Login() {
         formFields={formFields}
         components={components}
       >
-        {({ user }) => {
-          if (user) {
-            navigate('/dashboard');
-          }
-          return (
-            <div className="login-box">
-              <p>Redirigiendo al dashboard...</p>
-            </div>
-          );
-        }}
+        {({ user }) => <RedirectToDashboard user={user} />}
       </Authenticator>
     </div>
   );
