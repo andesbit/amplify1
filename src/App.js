@@ -4,7 +4,6 @@ import Navbar from './components/Navbar.js';
 import Footer from './components/Footer.js';
 import Home from './pages/Home.js';
 import Login from './pages/Login.js';
-import Dashboard from './pages/Dashboard.js';
 import Profile from './pages/Profile.js';
 import Users from './pages/Users.js';
 import AddUser from './pages/AddUser.js';
@@ -23,7 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/users" element={<Users />} />
         <Route path="/add-user" element={<AddUser />} />

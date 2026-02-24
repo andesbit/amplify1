@@ -6,19 +6,19 @@ import { fetchAuthSession, signInWithRedirect } from 'aws-amplify/auth';
 import './Login.css';
 
 // Componente auxiliar para manejar la redirección
-function RedirectToDashboard({ user }) {
+function RedirectToProfile({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate('/profile');
     }
   }, [user, navigate]);
 
   if (user) {
     return (
       <div className="login-box">
-        <p>Redirigiendo al dashboard...</p>
+        <p>Redirigiendo al profile...</p>
       </div>
     );
   }
@@ -37,7 +37,7 @@ function Login() {
     try {
       const session = await fetchAuthSession();
       if (session.tokens) {
-        navigate('/dashboard');
+        navigate('/profile');
       }
     } catch (error) {
       // Usuario no autenticado
@@ -116,7 +116,7 @@ function Login() {
         formFields={formFields}
         components={components}
       >
-        {({ user }) => <RedirectToDashboard user={user} />}
+        {({ user }) => <RedirectToProfile user={user} />}
       </Authenticator>
     </div>
   );

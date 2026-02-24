@@ -49,14 +49,7 @@ function Navbar() {
 
           {isAuthenticated ? (
             <>
-              <li>
-                <Link 
-                  to="/dashboard"
-                  className={location.pathname === '/dashboard' ? 'active' : ''}
-                >
-                  Dashboard
-                </Link>
-              </li>
+              
               <li>
                 <Link 
                   to="/inbox"
