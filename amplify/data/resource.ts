@@ -9,7 +9,7 @@ const schema = a.schema({
       bio: a.string(),
       offer: a.string(),
       profilePicture: a.string(),
-      images: a.hasMany('UserImage', 'userId'),  // ← AGREGA ESTA LÍNEA
+      images: a.hasMany('UserImage', 'userId'),
     })
     .authorization((allow) => [
       allow.owner(),
@@ -25,7 +25,7 @@ const schema = a.schema({
       imagePath: a.string().required(),
       description: a.string(),
       order: a.integer(),
-      userProfile: a.belongsTo('UserProfile', 'userId'),  // ← Ya estaba
+      userProfile: a.belongsTo('UserProfile', 'userId'), 
     })
     .authorization((allow) => [
       allow.owner(),
@@ -34,8 +34,8 @@ const schema = a.schema({
 
   Message: a
     .model({
-      senderId: a.string().required(),  // ← Cambié de fromUserId
-      receiverId: a.string().required(),  // ← Cambié de toUserId
+      senderId: a.string().required(),
+      receiverId: a.string().required(),
       content: a.string().required(),
       read: a.boolean().default(false),
     })
