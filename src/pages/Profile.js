@@ -437,20 +437,7 @@ async function handleSave(e) {
             />
           </div>
 
-          {/*<div className="form-group">
-            <label htmlFor="age">Edad</label>
-            <input
-              type="number"
-              id="age"
-              name="age"
-              value={profile.age}
-              onChange={handleChange}
-              placeholder="Ingresa tu edad"
-              min="1"
-              max="120"
-            />
-          </div>
-          */}
+          
           <div className="form-group">
             <label htmlFor="username">Nombre de Usuario (único) *</label>
             <div className="username-input-wrapper">
@@ -512,20 +499,46 @@ async function handleSave(e) {
               rows="3"
             />
           </div>
+<center>
+          <button type="submit" className="btn" disabled={saving || uploadingImage}>
 
-          <button type="submit" className="btn-save" disabled={saving || uploadingImage}>
-            {saving ? 'Guardando...' : 'Guardar Perfil'}
+
+  <span className="icon">
+      
+      <svg className="disk" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+      
+      <span className="check">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </span>
+    </span>
+    <span className="label">
+      {saving ? 'Guardando...' : 'Guardar Perfil'}
+    </span>
+    <span className="bar"></span>
+
           </button>
-
+</center>
           {message && (
             <div className={`message ${message.includes('❌') ? 'error' : message.includes('...') ? 'info' : 'success'}`}>
               {message}
             </div>
           )}
         </form>
-        
-        <button onClick={() => navigate('/dashboard')} className="btn-back">
-          Volver al Dashboard
+        <br />
+        <button onClick={() => navigate('/')} className="btn-outline">
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Volver al inicio
+          </span>
         </button>
 
 
