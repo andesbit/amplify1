@@ -220,8 +220,8 @@ function Inbox() {
         )}
 
         <div className="inbox-actions">
-          <button onClick={() => navigate('/dashboard')} className="btn-back-inbox">
-            Volver al Dashboard
+          <button onClick={() => navigate('/')} className="btn-back-inbox">
+            Volver al Inicio
           </button>
         </div>
       </div>

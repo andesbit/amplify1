@@ -313,11 +313,11 @@ function Gallery() {
         </div>
 
         <div className="gallery-actions">
-          <button onClick={() => navigate('/profile')} className="btn-back">
-            Volver al Perfil
+          <button onClick={() => navigate('/profile')} className="btn-outline">
+            <span>Volver al Perfil</span>
           </button>
-          <button onClick={() => navigate('/dashboard')} className="btn-back">
-            Ir al Dashboard
+          <button onClick={() => navigate('/')} className="btn-outline">
+            <span>Ir al Inicio</span>
           </button>
         </div>
       </div>

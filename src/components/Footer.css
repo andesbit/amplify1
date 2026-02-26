@@ -35,8 +35,11 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: flex-end;
+    text-decoration: none;
 }
-
+.footer a{
+    text-decoration:none;
+}
 .footer-links li {
     display: inline-block;
 }
