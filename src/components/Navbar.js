@@ -6,9 +6,15 @@ import './Navbar.css';
 function Navbar() {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     checkAuthStatus();
+  }, [location]);
+
+  // Cerrar menú al cambiar de ruta
+  useEffect(() => {
+    setMenuOpen(false);
   }, [location]);
 
   async function checkAuthStatus() {
@@ -24,20 +30,37 @@ function Navbar() {
     try {
       await signOut();
       setIsAuthenticated(false);
+      setMenuOpen(false);
       window.location.href = '/';
     } catch (error) {
       console.log('Error al cerrar sesión:', error);
     }
   }
 
+  function toggleMenu() {
+    setMenuOpen(!menuOpen);
+  }
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-             <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
+          <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
         </Link>
 
-        <ul className="navbar-menu">
+        {/* Botón hamburguesa */}
+        <button 
+          className={`hamburger ${menuOpen ? 'active' : ''}`}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Menú */}
+        <ul className={`navbar-menu ${menuOpen ? 'active' : ''}`}>
           <li>
             <Link 
               to="/" 
@@ -49,7 +72,6 @@ function Navbar() {
 
           {isAuthenticated ? (
             <>
-              
               <li>
                 <Link 
                   to="/inbox"
