@@ -122,22 +122,67 @@ function Home() {
     
     try {
       const term = searchTerm.trim();
-
-      const filters = {
-        or: [
-          { name: { contains: term } },
-          { userName: { contains: term } },  // ← NUEVO: buscar por userName
-          { bio: { contains: term } },
-          { offer: { contains: term } }
-        ]
-      };
-
-      const result = await client.models.UserProfile.list({
-        filter: filters,
-        limit: 50
-      });
-
-      setUsers(result.data || []);
+      
+      // Dividir en palabras
+      const words = term.split(/\s+/).filter(word => word.length > 0);
+      
+      if (words.length === 0) {
+        setUsers([]);
+        setLoading(false);
+        return;
+      }
+      
+      // Si es una sola palabra, búsqueda normal
+      if (words.length === 1) {
+        const filters = {
+          or: [
+            { name: { contains: words[0] } },
+            { userName: { contains: words[0] } },
+            { bio: { contains: words[0] } },
+            { offer: { contains: words[0] } }
+          ]
+        };
+        
+        const result = await client.models.UserProfile.list({
+          filter: filters,
+          limit: 50
+        });
+        
+        setUsers(result.data || []);
+      } else {
+        // Múltiples palabras: buscar cada una y combinar resultados
+        const allResults = new Map(); // Usar Map para evitar duplicados
+        
+        for (const word of words) {
+          const filters = {
+            or: [
+              { name: { contains: word } },
+              { userName: { contains: word } },
+              { bio: { contains: word } },
+              { offer: { contains: word } }
+            ]
+          };
+          
+          const result = await client.models.UserProfile.list({
+            filter: filters,
+            limit: 50
+          });
+          
+          // Agregar resultados al Map (la clave es el ID para evitar duplicados)
+          if (result.data) {
+            result.data.forEach(user => {
+              if (!allResults.has(user.id)) {
+                allResults.set(user.id, user);
+              }
+            });
+          }
+        }
+        
+        // Convertir Map a Array
+        const combinedResults = Array.from(allResults.values());
+        setUsers(combinedResults);
+      }
+      
     } catch (error) {
       console.error('Error buscando usuarios:', error);
       setUsers([]);
@@ -145,7 +190,7 @@ function Home() {
       setLoading(false);
     }
   }
-
+  
   function handleLoadMore() {
     if (nextToken && !loadingMore && !searching) {
       loadUsers(nextToken);
