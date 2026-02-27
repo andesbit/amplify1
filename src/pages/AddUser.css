@@ -146,3 +146,49 @@
   background-color: #eaa466;
   color: white;
 }
+
+/* Username validation */
+.username-input-wrapper {
+  position: relative;
+}
+
+.username-input-wrapper input {
+  padding-right: 140px;
+}
+
+.input-success {
+  border-color: #28a745 !important;
+}
+
+.input-error {
+  border-color: #dc3545 !important;
+}
+
+.username-status {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.username-status.checking {
+  color: #6c757d;
+}
+
+.username-status.available {
+  color: #28a745;
+}
+
+.username-status.taken {
+  color: #dc3545;
+}
+
+.username-hint {
+  display: block;
+  margin-top: 0.5rem;
+  color: #6c757d;
+  font-size: 0.85rem;
+}
