@@ -48,7 +48,7 @@ function Home() {
         const currentUser = await getCurrentUser();
         const userEmail = currentUser.signInDetails?.loginId;
         
-        if (userEmail === 'adocarpel@gmail.com') {
+        if (userEmail === 'lupakiwe@gmail.com') {
           setIsAdmin(true);
         }
       }

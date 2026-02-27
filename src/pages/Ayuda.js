@@ -66,18 +66,18 @@ function Ayuda() {
             </div>
 
             <div className="ayuda-field">
-              <h4>📖 Biografía</h4>
+              <h4>📖 Biografía/País/Ciudad</h4>
               <ul>
-                <li>Cuéntanos sobre ti, tus intereses o experiencia</li>
-                <li>Este campo es opcional pero ayuda a otros a conocerte mejor</li>
+                <li>Opcional: Cuéntanos sobre ti, tus intereses o experiencia</li>
+                <li>País, tu ciudad</li>
               </ul>
             </div>
 
             <div className="ayuda-field">
-              <h4>💼 Oferta/Servicio</h4>
+              <h4>💼 Oferta/Servicio/Especialidades</h4>
               <ul>
                 <li>Describe qué servicios ofreces o qué estás buscando</li>
-                <li>Ejemplos: "Clases de programación", "Diseño gráfico", "Asesoría legal"</li>
+                <li>Ejemplos: "Clases de programación", "C++", "Diseño gráfico", "Asesoría legal"</li>
               </ul>
             </div>
 
