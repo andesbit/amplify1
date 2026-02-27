@@ -1,11 +1,11 @@
 {
-  "short_name": "Mi App",
-  "name": "Nombre Completo de Mi Aplicación",
-  "description": "Una breve descripción de lo que hace tu aplicación para la Play Store.",
+  "short_name": "Ofertio",
+  "name": "Ofertio",
+  "description": "Esta aplicación sirve para ofrecer y solicitar empleos en trabajos varios. También para ventas y comunicación.",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "32x32",
       "type": "image/x-icon"
     },
     {
@@ -24,7 +24,7 @@
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#007bff",
+  "theme_color": "#696868",
   "background_color": "#ffffff",
   "lang": "es-ES"
 }
