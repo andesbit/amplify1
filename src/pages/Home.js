@@ -285,7 +285,7 @@ function Home() {
                       {user.bio && <p className="user-bio-home">{user.bio}</p>}
                       {user.offer && (
                         <div className="user-offer-home">
-                          <strong>Oferta:</strong> {user.offer}
+                          <strong>Oferta y especialidades:</strong> {user.offer}
                         </div>
                       )}
                     </div>

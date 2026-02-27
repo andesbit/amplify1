@@ -270,7 +270,7 @@ function PublicProfile() {
         {/* Oferta/Servicio */}
         {user.offer && (
           <div className="offer-section">
-            <h2>💼 Oferta / Servicio</h2>
+            <h2>💼 Oferta / Servicio /Especialidades</h2>
             <p>{user.offer}</p>
           </div>
         )}

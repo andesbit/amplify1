@@ -477,7 +477,7 @@ async function handleSave(e) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="bio">Biografía</label>
+            <label htmlFor="bio">Biografía/Ciudad/País</label>
             <textarea
               id="bio"
               name="bio"
@@ -489,13 +489,13 @@ async function handleSave(e) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="offer">Oferta/Servicio</label>
+            <label htmlFor="offer">Oferta/Servicio/Especialidades</label>
             <textarea
               id="offer"
               name="offer"
               value={profile.offer}
               onChange={handleChange}
-              placeholder="¿Qué ofreces? Describe tus servicios o productos..."
+              placeholder="¿Qué ofreces? Describe tus servicios, especialidades o productos..."
               rows="3"
             />
           </div>
