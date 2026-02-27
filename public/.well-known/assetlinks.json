@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "net.ofertio.twa",
+        "sha256_cert_fingerprints": ["F4:83:1D:9A:D6:43:65:DD:31:44:4B:DB:7E:70:77:6E:C8:F8:69:FF:7E:F6:E0:86:87:E6:3C:32:F4:64:1A:5C"]
+      }
+    }]
