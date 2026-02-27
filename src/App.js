@@ -13,6 +13,7 @@ import Inbox from './pages/Inbox.js';
 import Terminos from './pages/legal/Terminos.js';
 import Privacidad from './pages/legal/Privacidad.js';
 import Disclaimer from './pages/legal/Disclaimer.js';
+import Ayuda from './pages/Ayuda.js';
 
 // Dentro de <Routes>:
 function App() {
