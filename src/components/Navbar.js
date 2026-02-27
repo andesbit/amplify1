@@ -69,6 +69,14 @@ function Navbar() {
               Inicio
             </Link>
           </li>
+          <li>
+            <Link 
+              to="/ayuda"
+              className={location.pathname === '/ayuda' ? 'active' : ''}
+            >
+              ❓ Ayuda
+            </Link>
+          </li>
 
           {isAuthenticated ? (
             <>

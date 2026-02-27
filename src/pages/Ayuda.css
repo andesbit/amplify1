@@ -1,0 +1,271 @@
+.ayuda-container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: #f8f9fa;
+}
+
+.ayuda-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 2rem;
+}
+
+.ayuda-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 3px solid #007bff;
+}
+
+.ayuda-header h1 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-size: 2.2rem;
+}
+
+.ayuda-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Secciones */
+.ayuda-section {
+  margin-bottom: 3rem;
+}
+
+.ayuda-section h2 {
+  color: #007bff;
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.ayuda-step {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.ayuda-step h3 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+}
+
+.ayuda-step h4 {
+  color: #495057;
+  margin: 1rem 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.ayuda-step ol,
+.ayuda-step ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+.ayuda-step li {
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+/* Campos del perfil */
+.ayuda-field {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #007bff;
+}
+
+.ayuda-field h4 {
+  margin-top: 0;
+}
+
+/* Tips y notas */
+.ayuda-tip {
+  background: #d1ecf1;
+  border-left: 4px solid #0c5460;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  color: #0c5460;
+}
+
+.ayuda-note {
+  background: #fff3cd;
+  border-left: 4px solid #856404;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  color: #856404;
+}
+
+.ayuda-important {
+  background: #f8d7da;
+  border-left: 4px solid #721c24;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  color: #721c24;
+  font-weight: 500;
+}
+
+/* Grid de consejos */
+.ayuda-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.ayuda-tip-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s;
+}
+
+.ayuda-tip-card:hover {
+  border-color: #007bff;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+}
+
+.ayuda-tip-card h4 {
+  color: #007bff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.ayuda-tip-card p {
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* FAQ */
+.ayuda-faq {
+  background: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #28a745;
+}
+
+.ayuda-faq h4 {
+  color: #28a745;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.ayuda-faq p {
+  color: #495057;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Sección de contacto */
+.ayuda-contact {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+}
+
+.ayuda-contact h2 {
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.ayuda-contact p,
+.ayuda-contact li {
+  color: white;
+}
+
+.ayuda-contact a {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ayuda-contact a:hover {
+  text-decoration: underline;
+}
+
+/* Botones */
+.ayuda-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.btn-ayuda-home,
+.btn-ayuda-login {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-ayuda-home {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-ayuda-home:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-ayuda-login {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.btn-ayuda-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,123,255,0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ayuda-content {
+    padding: 1.5rem;
+  }
+
+  .ayuda-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .ayuda-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .ayuda-tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ayuda-actions {
+    flex-direction: column;
+  }
+
+  .btn-ayuda-home,
+  .btn-ayuda-login {
+    width: 100%;
+  }
+}

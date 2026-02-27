@@ -31,6 +31,7 @@ function App() {
         <Route path="/terminos" element={<Terminos />} />
         <Route path="/privacidad" element={<Privacidad />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/ayuda" element={<Ayuda />} />
         <Route path="/:userName" element={<PublicProfile />} />  {/* ← AL FINAL */}
       </Routes>
       <Footer />
