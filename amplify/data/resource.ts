@@ -40,10 +40,20 @@ const schema = a.schema({
       read: a.boolean().default(false),
     })
     .authorization((allow) => [
-      allow.owner()
+      allow.authenticated()  // ← Todos los autenticados pueden leer/escribir/actualizar
     ]),
 });
-
+/*Message: a
+    .model({
+      senderId: a.string().required(),
+      receiverId: a.string().required(),
+      content: a.string().required(),
+      read: a.boolean().default(false),
+    })
+    .authorization((allow) => [
+      allow.owner()
+    ]),
+  */
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
