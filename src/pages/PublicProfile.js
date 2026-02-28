@@ -141,7 +141,7 @@ function PublicProfile() {
     }
     setImageUrls(urls);
   }
-
+/*
   async function loadMessages() {
     const authClient = getClient('userPool');
     setLoadingMessages(true);
@@ -183,6 +183,58 @@ function PublicProfile() {
       setLoadingMessages(false);
     }
   }
+    */
+
+  async function loadMessages() {
+  const authClient = getClient('userPool');
+  setLoadingMessages(true);
+  
+  console.log('=== CARGANDO MENSAJES ===');
+  console.log('currentUser.userId:', currentUser.userId);
+  console.log('userId del perfil:', userId);
+  
+  try {
+    // Cargar mensajes enviados
+    const { data: sent } = await authClient.models.Message.list({
+      filter: {
+        senderId: { eq: currentUser.userId },
+        receiverId: { eq: userId }
+      }
+    });
+    console.log('Mensajes ENVIADOS:', sent);
+
+    // Cargar mensajes recibidos
+    const { data: received } = await authClient.models.Message.list({
+      filter: {
+        senderId: { eq: userId },
+        receiverId: { eq: currentUser.userId }
+      }
+    });
+    console.log('Mensajes RECIBIDOS:', received);
+
+    // Combinar y ordenar por fecha
+    const allMessages = [...(sent || []), ...(received || [])].sort((a, b) => 
+      new Date(a.createdAt) - new Date(b.createdAt)
+    );
+    
+    console.log('Mensajes COMBINADOS:', allMessages);
+    setMessages(allMessages);
+
+    // Marcar como leídos
+    for (const msg of received || []) {
+      if (!msg.read) {
+        await authClient.models.Message.update({
+          id: msg.id,
+          read: true
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error cargando mensajes:', error);
+  } finally {
+    setLoadingMessages(false);
+  }
+}
 
   async function handleSendMessage(e) {
     e.preventDefault();
@@ -203,7 +255,7 @@ function PublicProfile() {
 
     setSendingMessage(true);
     setMessageStatus('');
-
+/*
     try {
       await authClient.models.Message.create({
         senderId: currentUser.userId,
@@ -213,6 +265,25 @@ function PublicProfile() {
       });
 
       setMessageStatus('✅ Mensaje enviado');
+      */
+
+try{
+      console.log('=== ENVIANDO MENSAJE ===');
+  console.log('De (senderId):', currentUser.userId);
+  console.log('Para (receiverId):', userId);
+  console.log('Contenido:', newMessage.trim());
+  
+  const result = await authClient.models.Message.create({
+    senderId: currentUser.userId,
+    receiverId: userId,
+    content: newMessage.trim(),
+    read: false
+  });
+  
+  console.log('Mensaje creado:', result);
+  
+  setMessageStatus('✅ Mensaje enviado');
+
       setNewMessage('');
       
       // Recargar mensajes
