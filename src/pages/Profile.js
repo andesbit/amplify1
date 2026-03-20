@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
 //import { generateClient } from 'aws-amplify/data';
 import { getClient } from '../utils/apiClient.js';
@@ -26,6 +26,9 @@ function Profile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+
+  const [userEmail, setUserEmail] = useState('');
+
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   // Estado para el modal
@@ -76,6 +79,15 @@ function Profile() {
     loadUserProfile();
   }, []);
 
+  async function loadUserEmail() {
+    try {
+      const attributes = await fetchUserAttributes();
+      setUserEmail(attributes.email || '');
+    } catch (error) {
+      console.error('Error cargando email:', error);
+    }
+  }
+
   async function loadUserProfile() {
     try {
       const client = getClient('userPool');
@@ -100,6 +112,7 @@ function Profile() {
           loadProfileImage(userProfile.profilePicture);
         }
       }
+      await loadUserEmail();  // ← AGREGA ESTA LÍNEA AL FINAL
     } catch (error) {
       console.log('Error cargando perfil:', error);
       navigate('/login');
@@ -387,7 +400,7 @@ async function handleSave(e) {
       <div className="profile-content">
         <div className="profile-header">
           <h2>Mi Perfil</h2>
-          <p>Email: {user?.signInDetails?.loginId}</p>
+          <p>Email: {userEmail || user?.signInDetails?.loginId || 'No disponible'}</p>
         </div>
 
         <form onSubmit={handleSave} className="profile-form">
