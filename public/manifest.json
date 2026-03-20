@@ -2,12 +2,7 @@
   "short_name": "Ofertio",
   "name": "Ofertio",
   "description": "Esta aplicación sirve para ofrecer y solicitar empleos en trabajos varios. También para ventas y comunicación.",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "32x32",
-      "type": "image/x-icon"
-    },
+  "icons": [   
     {
       "src": "logo192.png",
       "type": "image/png",
