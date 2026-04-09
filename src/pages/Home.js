@@ -206,7 +206,7 @@ function Home() {
   function handleUserClick(userName) {  // ← Cambié parámetro a userName
     navigate(`/${userName}`);  // ← URL amigable
   }
-
+//////let partis =[];
   return (
     <div className="home-container">
       <div className="home-content">
@@ -266,7 +266,13 @@ function Home() {
           ) : (
             <>
               <div className="users-grid-home">
-                {users.map((user) => (
+                {users.map((user) =>  {
+                  const campos = user.bio.split('|');
+                  
+                  const ciudadC = campos[2]?.trim(); 
+                  const fraseC = campos[3]?.trim(); 
+                  
+                  return(
                   <div 
                     key={user.id} 
                     className="user-card-home clickable"
@@ -282,7 +288,9 @@ function Home() {
                     <div className="user-info-home">
                       <h3>{user.name || 'Sin nombre'}</h3>
                       <p className="user-username-home">@{user.userName || 'usuario'}</p>  {/* ← NUEVO */}
-                      {user.bio && <p className="user-bio-home">{user.bio}</p>}
+                      {/*user.bio && <p className="user-bio-home">{user.bio}</p>*/}
+                      {ciudadC && <p><strong>Ciudad:</strong> {ciudadC}</p>}
+                      {fraseC && <p> {fraseC}</p>}
                       {user.offer && (
                         <div className="user-offer-home">
                           <strong>Oferta y especialidades:</strong> {user.offer}
@@ -290,7 +298,7 @@ function Home() {
                       )}
                     </div>
                   </div>
-                ))}
+                )})}
               </div>
 
               {!searching && hasMore && (

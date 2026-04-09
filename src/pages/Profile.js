@@ -23,6 +23,23 @@ function Profile() {
     offer: '',
     profilePicture: ''
   });
+  // Estado separado para los inputs temporales
+  const [ubicacion, setUbicacion] = useState({
+    pais: '',
+    ciudad: '',
+    frase: '',
+    biografia: ''
+  });
+
+  // Estados para los tres campos
+//  const [pais, setPais] = useState('');
+//  const [ciudad, setCiudad] = useState('');
+ // const [frase, setFrase] = useState('');
+ // const [biografia, setBiografia] = useState('');
+
+  // Estado para la cadena resultante
+ // const [cadena, setCadena] = useState('');
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -77,7 +94,14 @@ function Profile() {
 
   useEffect(() => {
     loadUserProfile();
+   // separarCampos();
   }, []);
+  
+  // Cargar y separar la bio cuando se monta el componente o cambia profile.bio
+  useEffect(() => {
+    const { pais, ciudad, frase, biografia } = separarBio(profile.bio);
+    setUbicacion({ pais, ciudad, frase, biografia });
+  }, [profile.bio]);   // Solo se ejecuta cuando bio cambia
 
   async function loadUserEmail() {
     try {
@@ -131,7 +155,107 @@ function Profile() {
       console.error('Error cargando imagen:', error);
     }
   }
+  
+  
+  //-------------------------------------------------------------------
+  // Función para unir los campos
+  /*const unirCampos = () => {
+    //if (!pais && !ciudad && !frase && !biografia) {
+    //  alert('Por favor ingresa al menos un campo');
+    //  return;
+    //}
 
+    // Generar número identificatorio aleatorio de 6 dígitos
+    const id = Math.floor(100000 + Math.random() * 900000);
+
+    // Crear la cadena unida: ID|campo1|campo2|campo3
+    const nuevaCadena = `${id}|${pais}|${ciudad}|${frase}|${biografia}`;
+
+    setCadena(nuevaCadena);
+    alert(`¡Campos unidos exitosamente!\nID generado: ${cadena}`);
+  };
+*/
+  // Función para separar los campos
+  /*
+  const separarCampos = () => {
+
+    setCadena(profile.bio);
+    
+    if (!cadena.trim()) {
+//      alert('El campo de texto está vacío. Primero une los campos.');
+      return;
+    }
+
+    const partes = cadena.trim().split('|');
+
+    if (partes.length !== 4) {
+      alert('Formato incorrecto.\nLa cadena debe tener el formato: ID|campo1|campo2|campo3');
+      return;
+    }
+
+    const id = partes[0];
+    const valor1 = partes[1] || '';
+    const valor2 = partes[2] || '';
+    const valor3 = partes[3] || '';
+    const valor4 = partes[4] || '';
+
+    // Actualizar los estados
+    setPais(valor1);
+    setCiudad(valor2);
+    setFrase(valor3);
+    setBiografia(valor4);
+
+    alert(`¡Campos separados correctamente!\nID recuperado: ${id}`);
+  };
+  */
+  // Función para separar bio en ciudad y pais
+  const separarBio = (bioTexto) => {
+    //if (!bioTexto || typeof bioTexto !== 'string') {
+    //  return { ciudad: '', pais: '' };
+    //}
+
+    //const partes = bioTexto.split(',').map(part => part.trim());
+    if (bioTexto === undefined)bioTexto="";
+    const partes = bioTexto.trim().split('|');
+
+    //if (partes.length !== 4) {
+    //  alert('Formato incorrecto.\nLa cadena debe tener el formato: ID|campo1|campo2|campo3');
+    //  return;
+    //}
+
+    const id = partes[0];
+    const valor1 = partes[1] || '';
+    const valor2 = partes[2] || '';
+    const valor3 = partes[3] || '';
+    const valor4 = partes[4] || '';
+    
+    return {
+      	pais: valor1,
+        ciudad: valor2,
+        frase: valor3,
+        biografia: valor4
+      };
+    
+    /*
+
+    if (partes.length >= 2) {
+      return {
+        ciudad: partes[0],
+        pais: partes.slice(1).join(', ')  // por si el país tiene coma
+      };
+    } else {
+      // Si no hay coma, asumimos que todo es ciudad
+      return {
+        ciudad: bioTexto.trim(),
+        pais: ''
+      };
+    }
+    */
+  };
+  //---------------------------------------------------------------------------
+
+  
+  
   async function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -314,14 +438,72 @@ async function handleSave(e) {
   }
 }
 
-
-
-  function handleChange(e) {
+/*
+  function handleBio(e) {
     const { name, value } = e.target;
+    unirCampos();
     setProfile(prev => ({
       ...prev,
       [name]: value
     }));
+  }
+  */
+  function handleChange(e) {
+    const { name, value } = e.target;
+    // Si el cambio viene de los inputs de ubicación
+    if (name === 'ciudad' || name === 'pais' || name === 'frase' || name === 'biografia') {
+      setUbicacion(prev => {
+        const nuevoUbicacion = {
+          ...prev,
+          [name]: value
+        };
+
+        // Construimos la bio automáticamente
+        if(nuevoUbicacion.pais === undefined)nuevoUbicacion.pais = "";
+        if(nuevoUbicacion.ciudad === undefined)nuevoUbicacion.ciudad = "";
+        if(nuevoUbicacion.frase === undefined)nuevoUbicacion.frase = "";
+        if(nuevoUbicacion.biografia === undefined)nuevoUbicacion.biografia = "";
+        const pais = nuevoUbicacion.pais.trim();
+        const ciudad = nuevoUbicacion.ciudad.trim();
+        const frase = nuevoUbicacion.frase.trim();
+        const biografia = nuevoUbicacion.biografia.trim();
+
+        let nuevaBio = '';
+        
+         // Generar número identificatorio aleatorio de 6 dígitos
+    	const id = Math.floor(100000 + Math.random() * 900000);
+
+    // Crear la cadena unida: ID|campo1|campo2|campo3
+    	 nuevaBio = `${id}|${pais}|${ciudad}|${frase}|${biografia}`;
+    
+//        if (ciudad && pais) {
+ //         nuevaBio = `${ciudad}, ${pais}`;
+  //      } else if (ciudad) {
+   //       nuevaBio = ciudad;
+    //    } else if (pais) {
+     //     nuevaBio = pais;
+      //  }
+
+        // Actualizamos profile.bio
+        setProfile(prevProfile => ({
+          ...prevProfile,
+          bio: nuevaBio
+        }));
+
+        return nuevoUbicacion;
+      });
+    } 
+    // Para los demás campos del profile
+    else {
+      setProfile(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+    //setProfile(prev => ({
+    //  ...prev,
+    //  [name]: value
+    //}));
   }
 
   async function handleDeleteAccount() {
@@ -490,11 +672,48 @@ async function handleSave(e) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="bio">Biografía/Ciudad/País</label>
+            <label htmlFor="pais">País</label>            
+            <input
+              type="text"
+              id="pais"
+              name="pais"
+              value={ubicacion.pais}
+              onChange={handleChange}
+              placeholder="tu país..."                
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="ciudad">Ciudad</label>
+            <input
+              type="text"
+              id="ciudad"
+              name="ciudad"
+              value={ubicacion.ciudad}
+              onChange={handleChange}
+              placeholder="tu ciudad..."
+              rows="4"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="bio">Frase de propaganda</label>
+            <input
+              type="text"
+              id="frase"
+              name="frase"
+              value={ubicacion.frase}
+              onChange={handleChange}
+              placeholder="Eslogan o lema..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="biografia">Biografía (opcional)</label>
             <textarea
-              id="bio"
-              name="bio"
-              value={profile.bio}
+              id="biografia"
+              name="biografia"
+              value={ubicacion.biografia}
               onChange={handleChange}
               placeholder="Cuéntanos sobre ti..."
               rows="4"
