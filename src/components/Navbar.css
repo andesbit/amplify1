@@ -15,7 +15,11 @@
   align-items: center;
   height: 70px;
 }
-
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -91,6 +95,7 @@
   gap: 5px;
   margin: 0;
   padding: 0;
+ 
 }
 
 .navbar-menu li {
@@ -204,4 +209,67 @@
     margin: 10px 20px;
     width: calc(100% - 40px);
   }
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  position: relative;  /* ← AGREGA ESTO */
+}
+
+/* Posicionar el selector de idioma */
+.navbar-container .language-selector {
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-container .language-selector {
+    position: static;
+    transform: none;
+    order: 2;  /* Entre logo y hamburguesa */
+    margin-left: auto;
+    margin-right: 10px;
+  }
+  
+  .hamburger {
+    order: 3;
+  }
+}
+/*.navbar-container .language-selector {
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .navbar-container .language-selector {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+}
+  */
+/*
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: auto;
+}
+*/
+#spetialLS{
+  position:absolute;
+  left:30px;
+  top:70px;
+  width:100px;
+  height:40px;
+  z-index:2;
+  display:block;
+  
 }

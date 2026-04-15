@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signOut, fetchAuthSession } from 'aws-amplify/auth';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector.js';
 import './Navbar.css';
 
 function Navbar() {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     checkAuthStatus();
@@ -42,12 +45,18 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
-        </Link>
 
+    <nav className="navbar">
+      <div id = "spetialLS">
+          <LanguageSelector />
+          </div>
+
+      <div className="navbar-container">
+        
+          <Link to="/" className="navbar-logo">
+            <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
+          </Link>
+          
         {/* Botón hamburguesa */}
         <button 
           className={`hamburger ${menuOpen ? 'active' : ''}`}
@@ -66,15 +75,16 @@ function Navbar() {
               to="/" 
               className={location.pathname === '/' ? 'active' : ''}
             >
-              Inicio
+              {t('nav.home')}
             </Link>
           </li>
+
           <li>
             <Link 
               to="/ayuda"
               className={location.pathname === '/ayuda' ? 'active' : ''}
             >
-              ❓ Ayuda
+              {t('nav.help')}
             </Link>
           </li>
 
@@ -85,7 +95,7 @@ function Navbar() {
                   to="/inbox"
                   className={location.pathname === '/inbox' ? 'active' : ''}
                 >
-                  📬 Mensajes
+                  {t('nav.messages')}
                 </Link>
               </li>
               <li>
@@ -93,7 +103,7 @@ function Navbar() {
                   to="/profile"
                   className={location.pathname === '/profile' ? 'active' : ''}
                 >
-                  Perfil
+                  {t('nav.profile')}
                 </Link>
               </li>
               <li>
@@ -101,7 +111,7 @@ function Navbar() {
                   to="/gallery"
                   className={location.pathname === '/gallery' ? 'active' : ''}
                 >
-                  Galería
+                  {t('nav.gallery')}
                 </Link>
               </li>
               <li>
@@ -109,12 +119,12 @@ function Navbar() {
                   to="/users"
                   className={location.pathname === '/users' ? 'active' : ''}
                 >
-                  Usuarios
+                  {t('nav.users')}
                 </Link>
               </li>
               <li>
                 <button onClick={handleSignOut} className="logout-link">
-                  Cerrar Sesión
+                  {t('nav.logout')}
                 </button>
               </li>
             </>
@@ -124,7 +134,7 @@ function Navbar() {
                 to="/login"
                 className={`login-link ${location.pathname === '/login' ? 'active' : ''}`}
               >
-                Iniciar Sesión
+                {t('nav.login')}
               </Link>
             </li>
           )}

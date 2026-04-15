@@ -1,0 +1,28 @@
+.language-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.language-selector button {
+  padding: 6px 12px;
+  /*background: rgba(255, 255, 255, 0.2);*/
+  background: #696868;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.language-selector button:hover {
+  
+  background: #d0b584;
+}
+
+.language-selector button.active {
+  background: #ffb62f;
+  color: #696868;
+  border-color: #ffb62f;
+}

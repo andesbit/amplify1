@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
+import { useTranslation } from 'react-i18next';  // ← IMPORTAR
 import './Home.css';
 import { getClient } from '../utils/apiClient.js';
 
 function Home() {
   const navigate = useNavigate();
+  const { t } = useTranslation();  // ← HOOK DE TRADUCCIÓN
+  
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
@@ -151,7 +154,7 @@ function Home() {
         setUsers(result.data || []);
       } else {
         // Múltiples palabras: buscar cada una y combinar resultados
-        const allResults = new Map(); // Usar Map para evitar duplicados
+        const allResults = new Map();
         
         for (const word of words) {
           const filters = {
@@ -168,7 +171,6 @@ function Home() {
             limit: 50
           });
           
-          // Agregar resultados al Map (la clave es el ID para evitar duplicados)
           if (result.data) {
             result.data.forEach(user => {
               if (!allResults.has(user.id)) {
@@ -178,7 +180,6 @@ function Home() {
           }
         }
         
-        // Convertir Map a Array
         const combinedResults = Array.from(allResults.values());
         setUsers(combinedResults);
       }
@@ -203,10 +204,10 @@ function Home() {
     loadUsers();
   }
 
-  function handleUserClick(userName) {  // ← Cambié parámetro a userName
-    navigate(`/${userName}`);  // ← URL amigable
+  function handleUserClick(userName) {
+    navigate(`/${userName}`);
   }
-//////let partis =[];
+
   return (
     <div className="home-container">
       <div className="home-content">
@@ -217,19 +218,19 @@ function Home() {
               onClick={() => navigate('/add-user')} 
               className="btn-admin"
             >
-              🔧 Panel de Administrador
+              🔧 {t('home.adminPanel')}
             </button>
           </div>
         )}
 
         <div className="users-section">
-          <h2>Nuestros Usuarios y Ofertas</h2>
+          <h2>{t('home.title')}</h2>
           
           <div className="search-container-home">
             <div className="search-box-home">
               <input
                 type="text"
-                placeholder="Buscar por nombre, usuario, biografía u oferta..."  
+                placeholder={t('home.search')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input-home"
@@ -243,8 +244,8 @@ function Home() {
             {searching && (
               <p className="search-results-text-home">
                 {loading 
-                  ? 'Buscando...' 
-                  : `${users.length} resultado${users.length !== 1 ? 's' : ''} encontrado${users.length !== 1 ? 's' : ''}`
+                  ? t('home.searching')
+                  : `${users.length} ${t('home.result')}${users.length !== 1 ? 's' : ''} ${t('home.found')}`
                 }
               </p>
             )}
@@ -252,14 +253,14 @@ function Home() {
 
           {loading ? (
             <div className="loading-users">
-              {searching ? 'Buscando usuarios...' : 'Cargando usuarios...'}
+              {searching ? t('home.searchingUsers') : t('home.loading')}
             </div>
           ) : users.length === 0 ? (
             <div className="no-users-home">
               <p>
                 {searching 
-                  ? `No se encontraron usuarios con "${searchTerm}"`
-                  : 'Aún no hay usuarios registrados'
+                  ? `${t('home.noResults')} "${searchTerm}"`
+                  : t('home.noUsers')
                 }
               </p>
             </div>
@@ -286,14 +287,13 @@ function Home() {
                       )}
                     </div>
                     <div className="user-info-home">
-                      <h3>{user.name || 'Sin nombre'}</h3>
-                      <p className="user-username-home">@{user.userName || 'usuario'}</p>  {/* ← NUEVO */}
-                      {/*user.bio && <p className="user-bio-home">{user.bio}</p>*/}
-                      {ciudadC && <p><strong>Ciudad:</strong> {ciudadC}</p>}
+                      <h3>{user.name || t('home.noName')}</h3>
+                      <p className="user-username-home">@{user.userName || 'usuario'}</p>
+                      {ciudadC && <p><strong>{t('home.city')}:</strong> {ciudadC}</p>}
                       {fraseC && <p> {fraseC}</p>}
                       {user.offer && (
                         <div className="user-offer-home">
-                          <strong>Oferta y especialidades:</strong> {user.offer}
+                          <strong>{t('home.offerAndSpecialties')}:</strong> {user.offer}
                         </div>
                       )}
                     </div>
@@ -311,10 +311,10 @@ function Home() {
                     {loadingMore ? (
                       <>
                         <span className="spinner-home"></span>
-                        Cargando...
+                        {t('common.loading')}
                       </>
                     ) : (
-                      'Ver más usuarios'
+                      t('home.loadMore')
                     )}
                   </button>
                 </div>
@@ -322,7 +322,7 @@ function Home() {
 
               {!searching && !hasMore && users.length > 0 && (
                 <div className="end-message-home">
-                  <p>✅ Mostrando todos los usuarios</p>
+                  <p>✅ {t('home.showingAll')}</p>
                 </div>
               )}
             </>
