@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import './AddUser.css';
 import { getClient } from '../utils/apiClient.js';
+import { useTranslation } from 'react-i18next';
 
 function AddUser() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [form, setForm] = useState({
     name: '',
     userName: '',
@@ -21,7 +24,6 @@ function AddUser() {
     checkAuth();
   }, []);
 
-  // Verificar disponibilidad del userName
   React.useEffect(() => {
     if (form.userName && form.userName.length >= 3) {
       const timeoutId = setTimeout(() => {
@@ -68,15 +70,13 @@ function AddUser() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Validación: userName obligatorio
     if (!form.userName || form.userName.trim().length < 3) {
-      setMessage('❌ El nombre de usuario debe tener al menos 3 caracteres');
+      setMessage(t('admin.validation.usernameMinLength'));
       return;
     }
 
-    // Validación: userName disponible
     if (usernameAvailable === false) {
-      setMessage('❌ Ese nombre de usuario ya está en uso');
+      setMessage(t('admin.validation.usernameTaken'));
       return;
     }
 
@@ -96,12 +96,12 @@ function AddUser() {
         offer: form.offer
       });
 
-      setMessage('✅ Usuario agregado correctamente');
+      setMessage(t('admin.success'));
       setForm({ name: '', userName: '', bio: '', offer: '' });
       setUsernameAvailable(null);
     } catch (error) {
       console.error('Error agregando usuario:', error);
-      setMessage('❌ Error al agregar usuario');
+      setMessage(t('admin.error'));
     } finally {
       setSaving(false);
     }
@@ -110,25 +110,25 @@ function AddUser() {
   return (
     <div className="add-user-container">
       <div className="add-user-content">
-        <h2>Agregar Usuario de Prueba</h2>
-        <p>Crea usuarios de prueba para probar la búsqueda</p>
+        <h2>{t('admin.title')}</h2>
+        <p>{t('admin.subtitle')}</p>
 
         <form onSubmit={handleSubmit} className="add-user-form">
           <div className="form-group">
-            <label htmlFor="name">Nombre *</label>
+            <label htmlFor="name">{t('admin.form.nameLabel')}</label>
             <input
               type="text"
               id="name"
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="Ej: María González"
+              placeholder={t('admin.form.namePlaceholder')}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="userName">Nombre de Usuario (único) *</label>
+            <label htmlFor="userName">{t('admin.form.usernameLabel')}</label>
             <div className="username-input-wrapper">
               <input
                 type="text"
@@ -136,7 +136,7 @@ function AddUser() {
                 name="userName"
                 value={form.userName}
                 onChange={handleChange}
-                placeholder="Ej: maria_gonzalez"
+                placeholder={t('admin.form.usernamePlaceholder')}
                 required
                 pattern="^[a-zA-Z0-9_]{3,20}$"
                 title="Solo letras, números y guión bajo. Entre 3 y 20 caracteres."
@@ -151,40 +151,40 @@ function AddUser() {
                 }
               />
               {checkingUsername && (
-                <span className="username-status checking">⏳ Verificando...</span>
+                <span className="username-status checking">{t('admin.checking')}</span>
               )}
               {!checkingUsername && usernameAvailable === true && (
-                <span className="username-status available">✅ Disponible</span>
+                <span className="username-status available">{t('admin.available')}</span>
               )}
               {!checkingUsername && usernameAvailable === false && (
-                <span className="username-status taken">❌ Ya está en uso</span>
+                <span className="username-status taken">{t('admin.taken')}</span>
               )}
             </div>
             <small className="username-hint">
-              Solo letras, números y guión bajo (_). Mínimo 3 caracteres.
+              {t('admin.usernameHint')}
             </small>
           </div>
 
           <div className="form-group">
-            <label htmlFor="bio">Biografía</label>
+            <label htmlFor="bio">{t('admin.form.bioLabel')}</label>
             <textarea
               id="bio"
               name="bio"
               value={form.bio}
               onChange={handleChange}
-              placeholder="Ej: Desarrolladora web con 5 años de experiencia..."
+              placeholder={t('admin.form.bioPlaceholder')}
               rows="4"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="offer">Oferta/Servicio</label>
+            <label htmlFor="offer">{t('admin.form.offerLabel')}</label>
             <textarea
               id="offer"
               name="offer"
               value={form.offer}
               onChange={handleChange}
-              placeholder="Ej: Desarrollo web, consultoría..."
+              placeholder={t('admin.form.offerPlaceholder')}
               rows="3"
             />
           </div>
@@ -194,7 +194,7 @@ function AddUser() {
             className="btn-save" 
             disabled={saving || usernameAvailable === false}
           >
-            {saving ? 'Agregando...' : 'Agregar Usuario'}
+            {saving ? t('admin.button.adding') : t('admin.button.addUser')}
           </button>
 
           {message && (
@@ -206,10 +206,10 @@ function AddUser() {
 
         <div className="quick-actions">
           <button onClick={() => navigate('/users')} className="btn-view-users">
-            Ver Usuarios
+            {t('admin.quickActions.viewUsers')}
           </button>
           <button onClick={() => navigate('/')} className="btn-back">
-            Volver al Inicio
+            {t('admin.quickActions.backHome')}
           </button>
         </div>
       </div>

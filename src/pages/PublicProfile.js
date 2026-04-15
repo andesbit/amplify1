@@ -4,12 +4,15 @@ import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
 import './PublicProfile.css';
 import { getClient } from '../utils/apiClient.js';
+import { useTranslation } from 'react-i18next';
 
 function PublicProfile() {
-  const { userName } = useParams();  // ← Cambiado de userId a userName
+  const { userName } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState(null);  // ← Nuevo: guardar userId después de buscar
+  const [userId, setUserId] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
@@ -67,7 +70,6 @@ function PublicProfile() {
     setLoading(true);
     
     try {
-      // Buscar por userName en lugar de userId
       const { data: profiles } = await publicClient.models.UserProfile.list({
         filter: { userName: { eq: userName } }
       });
@@ -80,7 +82,7 @@ function PublicProfile() {
 
       const userProfile = profiles[0];
       setUser(userProfile);
-      setUserId(userProfile.userId);  // Guardar userId para otros usos
+      setUserId(userProfile.userId);
       await loadUserImages(userProfile.userId);
     } catch (error) {
       console.error('Error cargando perfil:', error);
@@ -114,9 +116,7 @@ function PublicProfile() {
     try {
       const result = await getUrl({
         path: imagePath,
-        options: {
-          validateObjectExistence: false
-        }
+        options: { validateObjectExistence: false }
       });
       setProfileImageUrl(result.url.toString());
     } catch (error) {
@@ -130,9 +130,7 @@ function PublicProfile() {
       try {
         const result = await getUrl({ 
           path: image.imagePath,
-          options: {
-            validateObjectExistence: false
-          }
+          options: { validateObjectExistence: false }
         });
         urls[image.id] = result.url.toString();
       } catch (error) {
@@ -141,12 +139,12 @@ function PublicProfile() {
     }
     setImageUrls(urls);
   }
-/*
+
   async function loadMessages() {
     const authClient = getClient('userPool');
     setLoadingMessages(true);
+    
     try {
-      // Cargar mensajes entre el usuario actual y el perfil visitado
       const { data: sent } = await authClient.models.Message.list({
         filter: {
           senderId: { eq: currentUser.userId },
@@ -161,14 +159,13 @@ function PublicProfile() {
         }
       });
 
-      // Combinar y ordenar por fecha
       const allMessages = [...(sent || []), ...(received || [])].sort((a, b) => 
         new Date(a.createdAt) - new Date(b.createdAt)
       );
-
+      
       setMessages(allMessages);
 
-      // Marcar como leídos los mensajes recibidos
+      // Marcar como leídos
       for (const msg of received || []) {
         if (!msg.read) {
           await authClient.models.Message.update({
@@ -183,58 +180,6 @@ function PublicProfile() {
       setLoadingMessages(false);
     }
   }
-    */
-
-  async function loadMessages() {
-  const authClient = getClient('userPool');
-  setLoadingMessages(true);
-  
-  console.log('=== CARGANDO MENSAJES ===');
-  console.log('currentUser.userId:', currentUser.userId);
-  console.log('userId del perfil:', userId);
-  
-  try {
-    // Cargar mensajes enviados
-    const { data: sent } = await authClient.models.Message.list({
-      filter: {
-        senderId: { eq: currentUser.userId },
-        receiverId: { eq: userId }
-      }
-    });
-    console.log('Mensajes ENVIADOS:', sent);
-
-    // Cargar mensajes recibidos
-    const { data: received } = await authClient.models.Message.list({
-      filter: {
-        senderId: { eq: userId },
-        receiverId: { eq: currentUser.userId }
-      }
-    });
-    console.log('Mensajes RECIBIDOS:', received);
-
-    // Combinar y ordenar por fecha
-    const allMessages = [...(sent || []), ...(received || [])].sort((a, b) => 
-      new Date(a.createdAt) - new Date(b.createdAt)
-    );
-    
-    console.log('Mensajes COMBINADOS:', allMessages);
-    setMessages(allMessages);
-
-    // Marcar como leídos
-    for (const msg of received || []) {
-      if (!msg.read) {
-        await authClient.models.Message.update({
-          id: msg.id,
-          read: true
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Error cargando mensajes:', error);
-  } finally {
-    setLoadingMessages(false);
-  }
-}
 
   async function handleSendMessage(e) {
     e.preventDefault();
@@ -243,19 +188,18 @@ function PublicProfile() {
     if (!newMessage.trim()) return;
     
     if (!isAuthenticated) {
-      setMessageStatus('⚠️ Debes iniciar sesión para enviar mensajes');
+      setMessageStatus(t('public.loginRequired'));
       return;
     }
 
-    // No permitir enviarse mensajes a sí mismo
     if (currentUser.userId === userId) {
-      setMessageStatus('⚠️ No puedes enviarte mensajes a ti mismo');
+      setMessageStatus(t('public.cannotSendToSelf'));
       return;
     }
 
     setSendingMessage(true);
     setMessageStatus('');
-/*
+
     try {
       await authClient.models.Message.create({
         senderId: currentUser.userId,
@@ -264,57 +208,35 @@ function PublicProfile() {
         read: false
       });
 
-      setMessageStatus('✅ Mensaje enviado');
-      */
-
-try{
-      console.log('=== ENVIANDO MENSAJE ===');
-  console.log('De (senderId):', currentUser.userId);
-  console.log('Para (receiverId):', userId);
-  console.log('Contenido:', newMessage.trim());
-  
-  const result = await authClient.models.Message.create({
-    senderId: currentUser.userId,
-    receiverId: userId,
-    content: newMessage.trim(),
-    read: false
-  });
-  
-  console.log('Mensaje creado:', result);
-  
-  setMessageStatus('✅ Mensaje enviado');
-
+      setMessageStatus(t('public.messageSent'));
       setNewMessage('');
-      
-      // Recargar mensajes
       await loadMessages();
     } catch (error) {
       console.error('Error enviando mensaje:', error);
-      setMessageStatus('❌ Error al enviar el mensaje');
+      setMessageStatus(t('public.messageError'));
     } finally {
       setSendingMessage(false);
     }
   }
 
   if (loading) {
-    return <div className="loading">Cargando perfil...</div>;
+    return <div className="loading">{t('public.loading')}</div>;
   }
 
   if (!user) {
     return (
       <div className="public-profile-container">
         <div className="not-found">
-          <h2>Usuario no encontrado</h2>
-          <p>El perfil que buscas no existe o el nombre de usuario es incorrecto.</p>
+          <h2>{t('public.notFound')}</h2>
+          <p>{t('public.notFoundDesc')}</p>
           <button onClick={() => navigate('/')} className="btn-back-home">
-            Volver al Inicio
+            {t('public.backHome')}
           </button>
         </div>
       </div>
     );
   }
 
-  // No mostrar mensajería si es el propio perfil
   const isOwnProfile = currentUser && currentUser.userId === userId;
 
   return (
@@ -324,7 +246,7 @@ try{
         <div className="profile-header-public">
           <div className="profile-avatar-public">
             {profileImageUrl ? (
-              <img src={profileImageUrl} alt={user.name} />
+              <img src={profileImageUrl} alt={user.name || t('public.noName')} />
             ) : (
               <div className="avatar-placeholder">
                 {user.name ? user.name.charAt(0).toUpperCase() : '👤'}
@@ -332,7 +254,7 @@ try{
             )}
           </div>
           <div className="profile-info-public">
-            <h1>{user.name || 'Sin nombre'}</h1>
+            <h1>{user.name || t('public.noName')}</h1>
             <p className="user-username-public">@{user.userName}</p>
             {user.bio && <p className="user-bio-public">{user.bio}</p>}
           </div>
@@ -341,7 +263,7 @@ try{
         {/* Oferta/Servicio */}
         {user.offer && (
           <div className="offer-section">
-            <h2>💼 Oferta / Servicio /Especialidades</h2>
+            <h2>{t('public.offer')}</h2>
             <p>{user.offer}</p>
           </div>
         )}
@@ -349,13 +271,13 @@ try{
         {/* Sección de Mensajes */}
         {!isOwnProfile && (
           <div className="messages-section">
-            <h2>💬 Mensajes</h2>
+            <h2>{t('public.messages')}</h2>
             
             {!isAuthenticated ? (
               <div className="login-required">
-                <p>Debes iniciar sesión para enviar mensajes</p>
+                <p>{t('public.loginRequired')}</p>
                 <button onClick={() => navigate('/login')} className="btn-login-msg">
-                  Iniciar Sesión
+                  {t('public.loginButton')}
                 </button>
               </div>
             ) : (
@@ -363,10 +285,10 @@ try{
                 {/* Historial de mensajes */}
                 {messages.length > 0 && (
                   <div className="messages-history">
-                    <h3>Conversación</h3>
+                    <h3>{t('public.conversation')}</h3>
                     <div className="messages-list">
                       {loadingMessages ? (
-                        <p className="loading-msgs">Cargando mensajes...</p>
+                        <p className="loading-msgs">{t('public.loadingMessages')}</p>
                       ) : (
                         messages.map((msg) => (
                           <div 
@@ -395,7 +317,7 @@ try{
                   <textarea
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder={`Escribe un mensaje a ${user.name || 'este usuario'}...`}
+                    placeholder={`${t('public.messagePlaceholder')} ${user.name || t('public.noName')}...`}
                     className="message-input"
                     rows="3"
                     disabled={sendingMessage}
@@ -405,7 +327,7 @@ try{
                     className="btn-send-message"
                     disabled={sendingMessage || !newMessage.trim()}
                   >
-                    {sendingMessage ? 'Enviando...' : '📤 Enviar Mensaje'}
+                    {sendingMessage ? t('public.sending') : t('public.send')}
                   </button>
                 </form>
 
@@ -422,7 +344,9 @@ try{
         {/* Galería de imágenes */}
         {images.length > 0 && (
           <div className="gallery-section-public">
-            <h2>📸 Galería ({images.length} {images.length === 1 ? 'imagen' : 'imágenes'})</h2>
+            <h2>
+              {t('public.gallery')} ({images.length} {images.length === 1 ? t('public.image') : t('public.images')})
+            </h2>
             <div className="images-grid-public">
               {images.map((image) => (
                 <div key={image.id} className="image-card-public">
@@ -430,10 +354,10 @@ try{
                     {imageUrls[image.id] ? (
                       <img 
                         src={imageUrls[image.id]} 
-                        alt={image.description || 'Imagen de galería'} 
+                        alt={image.description || t('public.avatarAlt')} 
                       />
                     ) : (
-                      <div className="image-loading">Cargando...</div>
+                      <div className="image-loading">{t('public.loading')}</div>
                     )}
                   </div>
                   {image.description && (
@@ -449,12 +373,12 @@ try{
 
         {images.length === 0 && (
           <div className="no-gallery">
-            <p>Este usuario aún no ha subido imágenes a su galería</p>
+            <p>{t('public.noGallery')}</p>
           </div>
         )}
 
         <button onClick={() => navigate('/')} className="btn-back-home">
-          ← Volver al Inicio
+          {t('public.backHome')}
         </button>
       </div>
     </div>

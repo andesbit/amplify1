@@ -7,15 +7,16 @@ import './Navbar.css';
 
 function Navbar() {
   const location = useLocation();
+  const { t } = useTranslation();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { t } = useTranslation();
 
   useEffect(() => {
     checkAuthStatus();
   }, [location]);
 
-  // Cerrar menú al cambiar de ruta
+  // Cerrar menú automáticamente al cambiar de página
   useEffect(() => {
     setMenuOpen(false);
   }, [location]);
@@ -33,10 +34,9 @@ function Navbar() {
     try {
       await signOut();
       setIsAuthenticated(false);
-      setMenuOpen(false);
       window.location.href = '/';
     } catch (error) {
-      console.log('Error al cerrar sesión:', error);
+      console.error('Error al cerrar sesión:', error);
     }
   }
 
@@ -45,18 +45,20 @@ function Navbar() {
   }
 
   return (
-
     <nav className="navbar">
-      <div id = "spetialLS">
-          <LanguageSelector />
-          </div>
+      {/* Language Selector */}
+      <div id="spetialLS">
+        <LanguageSelector />
+      </div>
 
       <div className="navbar-container">
         
-          <Link to="/" className="navbar-logo">
-            <span className="o">&nbsp;O</span><span className="fertio">fertio</span>
-          </Link>
-          
+        {/* Logo */}
+        <Link to="/" className="navbar-logo">
+          <span className="o">&nbsp;O</span>
+          <span className="fertio">fertio</span>
+        </Link>
+
         {/* Botón hamburguesa */}
         <button 
           className={`hamburger ${menuOpen ? 'active' : ''}`}
@@ -123,7 +125,10 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <button onClick={handleSignOut} className="logout-link">
+                <button 
+                  onClick={handleSignOut} 
+                  className="logout-link"
+                >
                   {t('nav.logout')}
                 </button>
               </li>

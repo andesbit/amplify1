@@ -4,9 +4,12 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
 import './Inbox.css';
 import { getClient } from '../utils/apiClient.js';
+import { useTranslation } from 'react-i18next';
 
 function Inbox() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [currentUser, setCurrentUser] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,21 +35,19 @@ function Inbox() {
     const publicClient = getClient('apiKey');
 
     try {
-      // Obtener todos los mensajes enviados y recibidos
       const { data: received } = await client.models.Message.list({
-        filter: { receiverId: { eq: userId } }  // ← Cambié de toUserId a receiverId
+        filter: { receiverId: { eq: userId } }
       });
 
       const { data: sent } = await client.models.Message.list({
-        filter: { senderId: { eq: userId } }  // ← Cambié de fromUserId a senderId
+        filter: { senderId: { eq: userId } }
       });
 
-      // Agrupar mensajes por usuario
       const conversationsMap = new Map();
 
       // Procesar mensajes recibidos
       for (const msg of received || []) {
-        const otherUserId = msg.senderId;  // ← Cambié de fromUserId
+        const otherUserId = msg.senderId;
         
         if (!conversationsMap.has(otherUserId)) {
           conversationsMap.set(otherUserId, {
@@ -67,7 +68,7 @@ function Inbox() {
 
       // Procesar mensajes enviados
       for (const msg of sent || []) {
-        const otherUserId = msg.receiverId;  // ← Cambié de toUserId
+        const otherUserId = msg.receiverId;
         
         if (!conversationsMap.has(otherUserId)) {
           conversationsMap.set(otherUserId, {
@@ -82,14 +83,12 @@ function Inbox() {
         conv.messages.push(msg);
       }
 
-      // Ordenar mensajes y obtener el último de cada conversación
       const conversationsList = [];
       
       for (const [userId, conv] of conversationsMap) {
         conv.messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         conv.lastMessage = conv.messages[0];
         
-        // Obtener datos del usuario
         const { data: profiles } = await publicClient.models.UserProfile.list({
           filter: { userId: { eq: userId } }
         });
@@ -101,14 +100,11 @@ function Inbox() {
         conversationsList.push(conv);
       }
 
-      // Ordenar conversaciones por último mensaje
       conversationsList.sort((a, b) => 
         new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt)
       );
 
       setConversations(conversationsList);
-      
-      // Cargar imágenes de perfil
       await loadProfileImages(conversationsList);
     } catch (error) {
       console.error('Error cargando conversaciones:', error);
@@ -125,9 +121,7 @@ function Inbox() {
         try {
           const result = await getUrl({
             path: conv.userProfile.profilePicture,
-            options: {
-              validateObjectExistence: false
-            }
+            options: { validateObjectExistence: false }
           });
           images[conv.userId] = result.url.toString();
         } catch (error) {
@@ -139,28 +133,28 @@ function Inbox() {
     setProfileImages(images);
   }
 
-  function handleConversationClick(userName) {  // ← Cambié parámetro a userName
-    navigate(`/${userName}`);  // ← URL amigable
+  function handleConversationClick(userName) {
+    navigate(`/${userName}`);
   }
 
   if (loading) {
-    return <div className="loading">Cargando mensajes...</div>;
+    return <div className="loading">{t('messages.loading')}</div>;
   }
 
   return (
     <div className="inbox-container">
       <div className="inbox-content">
         <div className="inbox-header">
-          <h1>📬 Bandeja de Entrada</h1>
-          <p>Tus conversaciones</p>
+          <h1>{t('messages.title')}</h1>
+          <p>{t('messages.subtitle')}</p>
         </div>
 
         {conversations.length === 0 ? (
           <div className="no-conversations">
-            <p>No tienes conversaciones todavía</p>
-            <p className="hint">Visita el perfil de un usuario y envíale un mensaje</p>
+            <p>{t('messages.noConversations')}</p>
+            <p className="hint">{t('messages.noConversationsHint')}</p>
             <button onClick={() => navigate('/')} className="btn-explore">
-              Explorar Usuarios
+              {t('messages.exploreUsers')}
             </button>
           </div>
         ) : (
@@ -173,26 +167,35 @@ function Inbox() {
               >
                 <div className="conversation-avatar">
                   {profileImages[conv.userId] ? (
-                    <img src={profileImages[conv.userId]} alt={conv.userProfile?.name} />
+                    <img 
+                      src={profileImages[conv.userId]} 
+                      alt={conv.userProfile?.name || t('messages.avatarAlt')} 
+                    />
                   ) : (
                     <div className="avatar-placeholder-inbox">
-                      {conv.userProfile?.name ? conv.userProfile.name.charAt(0).toUpperCase() : '👤'}
+                      {conv.userProfile?.name 
+                        ? conv.userProfile.name.charAt(0).toUpperCase() 
+                        : '👤'}
                     </div>
                   )}
                 </div>
 
                 <div className="conversation-info">
                   <div className="conversation-header-row">
-                    <h3>{conv.userProfile?.name || 'Usuario'}</h3>
-                    <span className="username-inbox">@{conv.userProfile?.userName}</span> 
+                    <h3>{conv.userProfile?.name || t('messages.noName')}</h3>
+                    <span className="username-inbox">
+                      @{conv.userProfile?.userName}
+                    </span> 
                     {conv.unreadCount > 0 && (
-                      <span className="unread-badge">{conv.unreadCount}</span>
+                      <span className="unread-badge">
+                        {conv.unreadCount} {t('messages.unread')}
+                      </span>
                     )}
                   </div>
                   
                   <p className="last-message">
-                    {conv.lastMessage.senderId === currentUser.userId && (  // ← Cambié de fromUserId
-                      <span className="you-prefix">Tú: </span>
+                    {conv.lastMessage.senderId === currentUser?.userId && (
+                      <span className="you-prefix">{t('messages.you')}</span>
                     )}
                     {conv.lastMessage.content.length > 60 
                       ? conv.lastMessage.content.substring(0, 60) + '...' 
@@ -221,7 +224,7 @@ function Inbox() {
 
         <div className="inbox-actions">
           <button onClick={() => navigate('/')} className="btn-back-inbox">
-            Volver al Inicio
+            {t('messages.backToHome')}
           </button>
         </div>
       </div>

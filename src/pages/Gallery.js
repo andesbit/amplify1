@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
-//import { generateClient } from 'aws-amplify/data';
 import imageCompression from 'browser-image-compression';
 import './Gallery.css';
 import { getClient } from '../utils/apiClient.js';
-
-
-//const client = generateClient();
+import { useTranslation } from 'react-i18next';
 
 function Gallery() {
   const navigate = useNavigate();
-  const MAX_IMAGES = 6; // ← AGREGA ESTA LÍNEA
+  const { t } = useTranslation();
+  
+  const MAX_IMAGES = 6;
+  
   const [user, setUser] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,6 @@ function Gallery() {
         filter: { userId: { eq: userId } }
       });
       
-      // Ordenar por order o por fecha de creación
       const sortedImages = (data || []).sort((a, b) => {
         if (a.order !== null && b.order !== null) {
           return a.order - b.order;
@@ -77,15 +76,13 @@ function Gallery() {
     setImageUrls(urls);
   }
 
-
   async function handleImageUpload(event) {
     const file = event.target.files[0];
     const client = getClient('userPool'); 
     if (!file) return;
 
-    // ✅ AGREGA ESTA VALIDACIÓN
     if (images.length >= MAX_IMAGES) {
-      setMessage(`❌ Has alcanzado el límite de ${MAX_IMAGES} imágenes`);
+      setMessage(t('gallery.limitReached'));
       event.target.value = '';
       return;
     }
@@ -101,10 +98,9 @@ function Gallery() {
     }
 
     setUploading(true);
-    setMessage('Comprimiendo imagen...');
+    setMessage(t('gallery.compressing'));
 
     try {
-      // Comprimir imagen
       const options = {
         maxSizeMB: 0.5,
         maxWidthOrHeight: 1200,
@@ -114,24 +110,16 @@ function Gallery() {
 
       const compressedFile = await imageCompression(file, options);
       
-      console.log('Tamaño original:', (file.size / 1024 / 1024).toFixed(2), 'MB');
-      console.log('Tamaño comprimido:', (compressedFile.size / 1024 / 1024).toFixed(2), 'MB');
+      setMessage(t('gallery.uploadingImage'));
 
-      setMessage('Subiendo imagen...');
-
-      // Generar nombre único
       const fileName = `gallery/${user.userId}-${Date.now()}.jpg`;
 
-      // Subir a S3
       const result = await uploadData({
         path: fileName,
         data: compressedFile,
-        options: {
-          contentType: 'image/jpeg'
-        }
+        options: { contentType: 'image/jpeg' }
       }).result;
 
-      // Guardar en la base de datos
       const newOrder = images.length > 0 ? Math.max(...images.map(img => img.order || 0)) + 1 : 1;
       
       await client.models.UserImage.create({
@@ -141,43 +129,35 @@ function Gallery() {
         order: newOrder
       });
 
-      setMessage('✅ Imagen subida correctamente');
+      setMessage(t('gallery.uploadSuccess'));
       setNewImageDescription('');
       
-      // Recargar galería
       await loadGallery(user.userId);
-      
-      // Limpiar input
       event.target.value = '';
     } catch (error) {
       console.error('Error subiendo imagen:', error);
-      setMessage('❌ Error al subir la imagen');
+      setMessage(t('gallery.uploadError'));
     } finally {
       setUploading(false);
     }
   }
 
   async function handleDeleteImage(imageId, imagePath) {
-    const confirmed = window.confirm('¿Estás seguro de eliminar esta imagen?');
+    const confirmed = window.confirm(t('gallery.deleteConfirm'));
     const client = getClient('userPool'); 
 
     if (!confirmed) return;
 
     setDeletingId(imageId);
     try {
-      // Eliminar de S3
       await remove({ path: imagePath });
-      
-      // Eliminar de la base de datos
       await client.models.UserImage.delete({ id: imageId });
       
-      setMessage('✅ Imagen eliminada');
-      
-      // Actualizar lista local
+      setMessage(t('gallery.deleteSuccess'));
       setImages(prev => prev.filter(img => img.id !== imageId));
     } catch (error) {
       console.error('Error eliminando imagen:', error);
-      setMessage('❌ Error al eliminar la imagen');
+      setMessage(t('gallery.deleteError'));
     } finally {
       setDeletingId(null);
     }
@@ -191,44 +171,45 @@ function Gallery() {
         description: newDescription
       });
       
-      // Actualizar local
       setImages(prev => prev.map(img => 
         img.id === imageId ? { ...img, description: newDescription } : img
       ));
       
-      setMessage('✅ Descripción actualizada');
+      setMessage(t('gallery.updateSuccess'));
     } catch (error) {
       console.error('Error actualizando descripción:', error);
-      setMessage('❌ Error al actualizar');
+      setMessage(t('gallery.updateError'));
     }
   }
 
   if (loading) {
-    return <div className="loading">Cargando galería...</div>;
+    return <div className="loading">{t('common.loading')}</div>;
   }
 
   return (
     <div className="gallery-container">
       <div className="gallery-content">
         <div className="gallery-header">
-          <h2>Mi Galería de Imágenes</h2>
-          <p>Sube y gestiona tus imágenes</p>
+          <h2>{t('gallery.title')}</h2>
+          <p>{t('gallery.subtitle')}</p>
         </div>
 
         {/* Subir nueva imagen */}
         <div className="upload-section">
-          <h3>Agregar Nueva Imagen ({images.length}/{MAX_IMAGES})</h3>
+          <h3>
+            {t('gallery.addNewImage')} ({images.length}/{MAX_IMAGES})
+          </h3>
   
           {images.length >= MAX_IMAGES && (
             <div className="alert alert-warning">
-              ⚠️ Has alcanzado el límite de {MAX_IMAGES} imágenes. Elimina alguna para subir más.
+              {t('gallery.limitWarning', { max: MAX_IMAGES })}
             </div>
           )}
           
           <div className="upload-form">
             <input
               type="text"
-              placeholder="Descripción de la imagen (opcional)"
+              placeholder={t('gallery.descPlaceholder')}
               value={newImageDescription}
               onChange={(e) => setNewImageDescription(e.target.value)}
               className="description-input"
@@ -246,9 +227,11 @@ function Gallery() {
               htmlFor="galleryImageUpload" 
               className={`btn-upload-gallery ${(uploading || images.length >= MAX_IMAGES) ? 'disabled' : ''}`}
             >
-              {uploading ? 'Subiendo...' : 
-              images.length >= MAX_IMAGES ? '🚫 Límite alcanzado' : 
-              '📷 Seleccionar Imagen'}
+              {uploading 
+                ? t('gallery.uploading') 
+                : images.length >= MAX_IMAGES 
+                  ? t('gallery.limitReachedButton') 
+                  : t('gallery.select')}
             </label>
           </div>
           
@@ -261,12 +244,14 @@ function Gallery() {
 
         {/* Galería */}
         <div className="gallery-section">
-          <h3>Mis Imágenes ({images.length})</h3>
+          <h3>
+            {t('gallery.imagesCount')} ({images.length})
+          </h3>
           
           {images.length === 0 ? (
             <div className="no-images">
-              <p>Aún no has subido ninguna imagen</p>
-              <p className="hint">Comienza agregando tu primera imagen arriba</p>
+              <p>{t('gallery.noImages')}</p>
+              <p className="hint">{t('gallery.noImagesHint')}</p>
             </div>
           ) : (
             <div className="images-grid">
@@ -276,10 +261,10 @@ function Gallery() {
                     {imageUrls[image.id] ? (
                       <img 
                         src={imageUrls[image.id]} 
-                        alt={image.description || 'Imagen de galería'} 
+                        alt={image.description || t('gallery.imageAlt')} 
                       />
                     ) : (
-                      <div className="image-loading">Cargando...</div>
+                      <div className="image-loading">{t('gallery.loadingImage')}</div>
                     )}
                   </div>
                   
@@ -294,7 +279,7 @@ function Gallery() {
                         ));
                       }}
                       onBlur={(e) => handleUpdateDescription(image.id, e.target.value)}
-                      placeholder="Agregar descripción..."
+                      placeholder={t('gallery.descPlaceholder')}
                       className="description-edit"
                     />
                     
@@ -314,10 +299,10 @@ function Gallery() {
 
         <div className="gallery-actions">
           <button onClick={() => navigate('/profile')} className="btn-outline">
-            <span>Volver al Perfil</span>
+            {t('gallery.backToProfile')}
           </button>
           <button onClick={() => navigate('/')} className="btn-outline">
-            <span>Ir al Inicio</span>
+            {t('gallery.goToHome')}
           </button>
         </div>
       </div>

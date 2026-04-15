@@ -4,10 +4,12 @@ import '@aws-amplify/ui-react/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { fetchAuthSession, signInWithRedirect } from 'aws-amplify/auth';
 import './Login.css';
+import { useTranslation } from 'react-i18next';
 
 // Componente auxiliar para manejar la redirección
 function RedirectToProfile({ user }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user) {
@@ -18,7 +20,7 @@ function RedirectToProfile({ user }) {
   if (user) {
     return (
       <div className="login-box">
-        <p>Redirigiendo al profile...</p>
+        <p>{t('login.redirecting')}</p>
       </div>
     );
   }
@@ -28,6 +30,7 @@ function RedirectToProfile({ user }) {
 
 function Login() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     checkAuthStatus();
@@ -47,39 +50,41 @@ function Login() {
   const formFields = {
     signIn: {
       username: {
-        placeholder: 'Ingresa tu correo electrónico',
-        label: 'Correo Electrónico',
+        placeholder: t('login.emailPlaceholder'),
+        label: t('login.emailLabel'),
       },
     },
     signUp: {
       email: {
         order: 1,
-        placeholder: 'Ingresa tu correo electrónico',
-        label: 'Correo Electrónico',
+        placeholder: t('login.emailPlaceholder'),
+        label: t('login.emailLabel'),
       },
       password: {
         order: 2,
-        placeholder: 'Crea una contraseña',
-        label: 'Contraseña',
+        placeholder: t('login.passwordPlaceholder'),
+        label: t('login.passwordLabel'),
       },
       confirm_password: {
         order: 3,
-        placeholder: 'Confirma tu contraseña',
-        label: 'Confirmar Contraseña',
+        placeholder: t('login.confirmPasswordPlaceholder'),
+        label: t('login.confirmPasswordLabel'),
       },
     },
   };
 
   const components = {
     Header() {
+      const { t } = useTranslation(); // Hook dentro del componente interno
       return (
         <div style={{ textAlign: 'center', padding: '20px' }}>
-          <h2>Bienvenido</h2>
-          <p>Inicia sesión o crea tu cuenta</p>
+          <h2>{t('login.welcome')}</h2>
+          <p>{t('login.subtitle')}</p>
         </div>
       );
     },
     Footer() {
+      const { t } = useTranslation();
       return (
         <div style={{ textAlign: 'center', padding: '20px 0 0 0' }}>
           <div style={{ 
@@ -89,7 +94,7 @@ function Login() {
             margin: '20px 0'
           }}>
             <div style={{ flex: 1, height: '1px', backgroundColor: '#ddd' }}></div>
-            <span style={{ color: '#666', fontSize: '0.9rem' }}>O continúa con</span>
+            <span style={{ color: '#666', fontSize: '0.9rem' }}>{t('login.or')}</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: '#ddd' }}></div>
           </div>
           <button
@@ -103,7 +108,7 @@ function Login() {
               <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
               <path fill="none" d="M0 0h48v48H0z"/>
             </svg>
-            Continuar con Google
+            {t('login.google')}
           </button>
         </div>
       );

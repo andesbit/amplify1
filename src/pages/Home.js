@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
-import { useTranslation } from 'react-i18next';  // ← IMPORTAR
+import { useTranslation } from 'react-i18next';
 import './Home.css';
 import { getClient } from '../utils/apiClient.js';
 
 function Home() {
   const navigate = useNavigate();
-  const { t } = useTranslation();  // ← HOOK DE TRADUCCIÓN
+  const { t } = useTranslation();
   
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,7 +32,6 @@ function Home() {
       const timeoutId = setTimeout(() => {
         searchUsers();
       }, 500);
-
       return () => clearTimeout(timeoutId);
     } else {
       loadUsers();
@@ -68,9 +67,7 @@ function Home() {
         try {
           const result = await getUrl({ 
             path: user.profilePicture,
-            options: {
-              validateObjectExistence: false
-            }
+            options: { validateObjectExistence: false }
           });
           images[user.id] = result.url.toString();
         } catch (error) {
@@ -125,8 +122,6 @@ function Home() {
     
     try {
       const term = searchTerm.trim();
-      
-      // Dividir en palabras
       const words = term.split(/\s+/).filter(word => word.length > 0);
       
       if (words.length === 0) {
@@ -135,7 +130,6 @@ function Home() {
         return;
       }
       
-      // Si es una sola palabra, búsqueda normal
       if (words.length === 1) {
         const filters = {
           or: [
@@ -153,7 +147,6 @@ function Home() {
         
         setUsers(result.data || []);
       } else {
-        // Múltiples palabras: buscar cada una y combinar resultados
         const allResults = new Map();
         
         for (const word of words) {
@@ -180,10 +173,8 @@ function Home() {
           }
         }
         
-        const combinedResults = Array.from(allResults.values());
-        setUsers(combinedResults);
+        setUsers(Array.from(allResults.values()));
       }
-      
     } catch (error) {
       console.error('Error buscando usuarios:', error);
       setUsers([]);
@@ -244,7 +235,7 @@ function Home() {
             {searching && (
               <p className="search-results-text-home">
                 {loading 
-                  ? t('home.searching')
+                  ? t('home.searchingUsers')
                   : `${users.length} ${t('home.result')}${users.length !== 1 ? 's' : ''} ${t('home.found')}`
                 }
               </p>
@@ -267,38 +258,38 @@ function Home() {
           ) : (
             <>
               <div className="users-grid-home">
-                {users.map((user) =>  {
-                  const campos = user.bio.split('|');
-                  
+                {users.map((user) => {
+                  const campos = user.bio ? user.bio.split('|') : [];
                   const ciudadC = campos[2]?.trim(); 
                   const fraseC = campos[3]?.trim(); 
                   
-                  return(
-                  <div 
-                    key={user.id} 
-                    className="user-card-home clickable"
-                    onClick={() => handleUserClick(user.userName)}  
-                  >
-                    <div className="user-avatar-home">
-                      {userImages[user.id] ? (
-                        <img src={userImages[user.id]} alt={user.name} />
-                      ) : (
-                        user.name ? user.name.charAt(0).toUpperCase() : '👤'
-                      )}
+                  return (
+                    <div 
+                      key={user.id} 
+                      className="user-card-home clickable"
+                      onClick={() => handleUserClick(user.userName)}  
+                    >
+                      <div className="user-avatar-home">
+                        {userImages[user.id] ? (
+                          <img src={userImages[user.id]} alt={user.name || t('home.noName')} />
+                        ) : (
+                          user.name ? user.name.charAt(0).toUpperCase() : '👤'
+                        )}
+                      </div>
+                      <div className="user-info-home">
+                        <h3>{user.name || t('home.noName')}</h3>
+                        <p className="user-username-home">@{user.userName || 'usuario'}</p>
+                        {ciudadC && <p><strong>{t('home.city')}:</strong> {ciudadC}</p>}
+                        {fraseC && <p>{fraseC}</p>}
+                        {user.offer && (
+                          <div className="user-offer-home">
+                            <strong>{t('home.offerAndSpecialties')}:</strong> {user.offer}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="user-info-home">
-                      <h3>{user.name || t('home.noName')}</h3>
-                      <p className="user-username-home">@{user.userName || 'usuario'}</p>
-                      {ciudadC && <p><strong>{t('home.city')}:</strong> {ciudadC}</p>}
-                      {fraseC && <p> {fraseC}</p>}
-                      {user.offer && (
-                        <div className="user-offer-home">
-                          <strong>{t('home.offerAndSpecialties')}:</strong> {user.offer}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )})}
+                  );
+                })}
               </div>
 
               {!searching && hasMore && (

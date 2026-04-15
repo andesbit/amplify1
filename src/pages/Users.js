@@ -4,9 +4,12 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import { getUrl } from 'aws-amplify/storage';
 import './Users.css';
 import { getClient } from '../utils/apiClient.js';
+import { useTranslation } from 'react-i18next';
 
 function Users() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,10 +113,10 @@ function Users() {
 
     const results = users.filter(user => {
       const matchName = user.name?.toLowerCase().includes(term);
-      const matchUsername = user.userName?.toLowerCase().includes(term);  // ← NUEVO
+      const matchUsername = user.userName?.toLowerCase().includes(term);
       const matchBio = user.bio?.toLowerCase().includes(term);
       const matchOffer = user.offer?.toLowerCase().includes(term);
-      return matchName || matchUsername || matchBio || matchOffer;  // ← Incluye userName
+      return matchName || matchUsername || matchBio || matchOffer;
     });
 
     setFilteredUsers(results);
@@ -122,7 +125,7 @@ function Users() {
   async function handleDelete(userId, userName) {
     const client = getClient();
     const confirmed = window.confirm(
-      `¿Estás seguro de eliminar a ${userName || 'este usuario'}?`
+      `${t('users.confirmDelete')} ${userName || t('users.noName')}?`
     );
 
     if (!confirmed) return;
@@ -132,16 +135,16 @@ function Users() {
       await client.models.UserProfile.delete({ id: userId });
       setUsers(prev => prev.filter(u => u.id !== userId));
       setFilteredUsers(prev => prev.filter(u => u.id !== userId));
-      alert('✅ Usuario eliminado correctamente');
+      alert(t('users.userDeleted'));
     } catch (error) {
       console.error('Error eliminando usuario:', error);
-      alert('❌ Error al eliminar usuario');
+      alert(t('users.deleteError'));
     } finally {
       setDeletingId(null);
     }
   }
 
-  function handleUserClick(userName) {  // ← Nuevo
+  function handleUserClick(userName) {
     navigate(`/${userName}`);
   }
 
@@ -159,20 +162,20 @@ function Users() {
   const displayUsers = searchTerm ? filteredUsers : users;
 
   if (loading) {
-    return <div className="loading">Cargando usuarios...</div>;
+    return <div className="loading">{t('common.loading')}</div>;
   }
 
   return (
     <div className="users-container">
       <div className="users-content">
         <div className="users-header">
-          <h2>Usuarios Registrados</h2>
+          <h2>{t('users.title')}</h2>
           
           <div className="search-container">
             <div className="search-box">
               <input
                 type="text"
-                placeholder="Buscar por nombre, usuario, biografía u oferta..."
+                placeholder={t('users.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -185,13 +188,18 @@ function Users() {
             </div>
             {searching && (
               <p className="search-results-text">
-                {filteredUsers.length} resultado{filteredUsers.length !== 1 ? 's' : ''} encontrado{filteredUsers.length !== 1 ? 's' : ''}
+                {filteredUsers.length} {filteredUsers.length === 1 
+                  ? t('users.resultsFound') 
+                  : t('users.resultsFoundPlural')} {t('users.found')}
               </p>
             )}
           </div>
 
           {!searching && (
-            <p>Mostrando {users.length} usuarios{hasMore ? ' (hay más disponibles)' : ''}</p>
+            <p>
+              {t('users.showing')} {users.length} {t('users.users')}
+              {hasMore && ` ${t('users.hasMore')}`}
+            </p>
           )}
         </div>
 
@@ -199,8 +207,8 @@ function Users() {
           <div className="no-users">
             <p>
               {searching 
-                ? `No se encontraron usuarios con "${searchTerm}"`
-                : 'No hay usuarios registrados todavía'
+                ? `${t('users.noUsersFound')} "${searchTerm}"`
+                : t('users.noUsersYet')
               }
             </p>
           </div>
@@ -216,18 +224,18 @@ function Users() {
                 >
                   <div className="user-avatar">
                     {userImages[user.id] ? (
-                      <img src={userImages[user.id]} alt={user.name} />
+                      <img src={userImages[user.id]} alt={user.name || t('users.noName')} />
                     ) : (
                       user.name ? user.name.charAt(0).toUpperCase() : '👤'
                     )}
                   </div>
                   <div className="user-info">
-                    <h3>{user.name || 'Sin nombre'}</h3>
-                    <p className="user-username">@{user.userName || 'usuario'}</p>  {/* ← NUEVO */}
+                    <h3>{user.name || t('users.noName')}</h3>
+                    <p className="user-username">@{user.userName || 'usuario'}</p>
                     {user.bio && <p className="user-bio">{user.bio}</p>}
                     {user.offer && (
                       <div className="user-offer">
-                        <strong>Oferta:</strong> {user.offer}
+                        <strong>{t('users.offer')}</strong> {user.offer}
                       </div>
                     )}
                   </div>
@@ -235,12 +243,12 @@ function Users() {
                   {isAdmin && (
                     <button
                       onClick={(e) => {
-                        e.stopPropagation();  // ← Evita que se active el click del card
+                        e.stopPropagation();
                         handleDelete(user.id, user.name);
                       }}
                       className="btn-delete"
                       disabled={deletingId === user.id}
-                      title="Eliminar usuario"
+                      title={t('users.deleteUser')}
                     >
                       {deletingId === user.id ? '⏳' : '🗑️'}
                     </button>
@@ -259,10 +267,10 @@ function Users() {
                   {loadingMore ? (
                     <>
                       <span className="spinner"></span>
-                      Cargando...
+                      {t('users.loadingMore')}
                     </>
                   ) : (
-                    `Cargar más (${ITEMS_PER_PAGE} más)`
+                    t('users.loadMoreWithCount', { count: ITEMS_PER_PAGE })
                   )}
                 </button>
               </div>
@@ -270,14 +278,14 @@ function Users() {
 
             {!searching && !hasMore && users.length > 0 && (
               <div className="end-message">
-                <p>✅ Has visto todos los usuarios</p>
+                <p>{t('users.allLoaded')}</p>
               </div>
             )}
           </>
         )}
 
         <button onClick={() => navigate('/dashboard')} className="btn-back">
-          Volver al Dashboard
+          {t('users.backToDashboard')}
         </button>
       </div>
     </div>
