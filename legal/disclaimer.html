@@ -3,82 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disclaimer Legal - [Tu App]</title>
+    <title>Disclaimer Legal - Ofertio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="mb-4">⚖️ Disclaimer Legal</h1>
+        <h1 class="mb-4">{{ t('disclaimer.title') }}</h1>
         
         <div class="alert alert-warning">
-            <strong>Importante:</strong> Lea atentamente este disclaimer antes de usar la plataforma.
+            <strong>{{ t('disclaimer.important') }}</strong> {{ t('disclaimer.importantText') }}
         </div>
 
-        <h2>1. Limitación de Responsabilidad</h2>
+        <h2>{{ t('disclaimer.section1Title') }}</h2>
         <p>
-            Este software se proporciona "TAL CUAL" sin garantías de ningún tipo, ya sean expresas o implícitas, 
-            incluyendo, pero no limitado a, garantías implícitas de comerciabilidad, idoneidad para un propósito 
-            particular y no infracción.
+            {{ t('disclaimer.section1Text') }}
         </p>
 
-        <h2>2. Exención de Garantías</h2>
-        <p>Los desarrolladores NO garantizan que:</p>
+        <h2>{{ t('disclaimer.section2Title') }}</h2>
+        <p>{{ t('disclaimer.section2Intro') }}</p>
         <ul>
-            <li>El servicio estará disponible sin interrupciones</li>
-            <li>Los errores serán corregidos</li>
-            <li>El servicio estará libre de virus o componentes dañinos</li>
-            <li>Los resultados del uso del servicio serán precisos o confiables</li>
+            <li>{{ t('disclaimer.section2Item1') }}</li>
+            <li>{{ t('disclaimer.section2Item2') }}</li>
+            <li>{{ t('disclaimer.section2Item3') }}</li>
+            <li>{{ t('disclaimer.section2Item4') }}</li>
         </ul>
 
-        <h2>3. Responsabilidades del Usuario</h2>
-        <p>El usuario es el único responsable de:</p>
+        <h2>{{ t('disclaimer.section3Title') }}</h2>
+        <p>{{ t('disclaimer.section3Intro') }}</p>
         <ul>
-            <li>El uso que haga de la información proporcionada en la plataforma</li>
-            <li>Cumplir con las leyes locales, estatales, nacionales e internacionales</li>
-            <li>Obtener los consentimientos necesarios de terceros</li>
-            <li>La seguridad de sus credenciales de acceso</li>
-            <li>Las consecuencias de cualquier acción tomada basada en la información del servicio</li>
+            <li>{{ t('disclaimer.section3Item1') }}</li>
+            <li>{{ t('disclaimer.section3Item2') }}</li>
+            <li>{{ t('disclaimer.section3Item3') }}</li>
+            <li>{{ t('disclaimer.section3Item4') }}</li>
+            <li>{{ t('disclaimer.section3Item5') }}</li>
         </ul>
 
-        <h2>4. Protección de Datos</h2>
+        <h2>{{ t('disclaimer.section4Title') }}</h2>
         <p>
-            El usuario declara ser consciente de sus obligaciones bajo las leyes de protección de datos aplicables 
-            (GDPR, CCPA, etc.) y se compromete a cumplir con todas las regulaciones pertinentes.
+            {{ t('disclaimer.section4Text') }}
         </p>
 
-        <h2>5. Indemnización</h2>
+        <h2>{{ t('disclaimer.section5Title') }}</h2>
         <p>
-            El usuario acuerda indemnizar, defender y eximir de responsabilidad a los desarrolladores de cualquier 
-            reclamo, pérdida, responsabilidad, daño, costo o gasto (incluyendo honorarios razonables de abogados) 
-            que surja del uso del servicio.
+            {{ t('disclaimer.section5Text') }}
         </p>
 
-        <h2>6. Sin Garantía de Disponibilidad</h2>
+        <h2>{{ t('disclaimer.section6Title') }}</h2>
         <p>
-            No garantizamos que el servicio esté disponible en todo momento. Podemos suspender, retirar, descontinuar 
-            o cambiar cualquier aspecto del servicio sin previo aviso.
+            {{ t('disclaimer.section6Text') }}
         </p>
 
-        <h2>7. Modificaciones</h2>
+        <h2>{{ t('disclaimer.section7Title') }}</h2>
         <p>
-            Nos reservamos el derecho de modificar estos términos en cualquier momento. 
-            El uso continuado del servicio constituye la aceptación de dichas modificaciones.
+            {{ t('disclaimer.section7Text') }}
         </p>
 
-        <h2>8. Jurisdicción</h2>
+        <h2>{{ t('disclaimer.section8Title') }}</h2>
         <p>
-            Estos términos se rigen por las leyes de [Tu País/Estado], sin tener en cuenta sus disposiciones 
-            sobre conflictos de leyes.
+            {{ t('disclaimer.section8Text') }}
         </p>
 
         <div class="alert alert-danger mt-4">
-            <strong>⚠️ USO BAJO SU PROPIO RIESGO</strong><br>
-            Al usar esta plataforma, usted acepta expresamente que el uso es bajo su propio riesgo.
+            <strong>{{ t('disclaimer.riskWarning') }}</strong><br>
+            {{ t('disclaimer.riskText') }}
         </div>
 
         <p class="text-muted mt-4">
-            <small>Última actualización: <?= date('d/m/Y') ?></small>
+            <small>{{ t('disclaimer.lastUpdated') }} <?= date('d/m/Y') ?></small>
         </p>
+
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">{{ t('disclaimer.backToHome') }}</a>
+        </div>
     </div>
 </body>
 </html>

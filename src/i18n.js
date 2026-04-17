@@ -402,6 +402,149 @@ const resources = {
         developedBy: "Desarrollado por",
         donate: "💝 Donar"
       },
+
+            // ==================== TÉRMINOS DE USO ====================
+      terms: {
+        title: "📜 Términos de Uso",
+        welcome: "Bienvenido:",
+        welcomeText: "Al utilizar esta plataforma, usted acepta los siguientes términos y condiciones.",
+        
+        section1Title: "1. Aceptación de los Términos",
+        section1Text: "Al acceder y utilizar este servicio, usted acepta estar sujeto a estos términos de uso y todas las leyes y regulaciones aplicables. Si no está de acuerdo con alguno de estos términos, no utilice este servicio.",
+        
+        section2Title: "2. Uso del Servicio",
+        section2Intro: "Usted se compromete a:",
+        section2Item1: "Proporcionar información veraz y actualizada",
+        section2Item2: "No usar el servicio para fines ilegales o no autorizados",
+        section2Item3: "No intentar acceder a cuentas de otros usuarios",
+        section2Item4: "No transmitir virus, malware o código malicioso",
+        section2Item5: "No acosar, abusar o dañar a otros usuarios",
+        
+        section3Title: "3. Cuenta de Usuario",
+        section3Text: "Usted es responsable de mantener la confidencialidad de sus credenciales de acceso y de todas las actividades que ocurran bajo su cuenta. Debe notificar inmediatamente cualquier uso no autorizado.",
+        
+        section4Title: "4. Contenido del Usuario",
+        section4Text: "Usted retiene todos los derechos sobre el contenido que publique. Sin embargo, al publicar contenido, nos otorga una licencia mundial, no exclusiva y libre de regalías para usar, reproducir y mostrar dicho contenido en relación con el servicio.",
+        
+        section5Title: "5. Terminación",
+        section5Text: "Nos reservamos el derecho de suspender o terminar su acceso al servicio en cualquier momento, sin previo aviso, por conducta que consideremos inapropiada o por violación de estos términos.",
+        
+        section6Title: "6. Modificaciones",
+        section6Text: "Nos reservamos el derecho de modificar estos términos en cualquier momento. El uso continuado del servicio después de dichas modificaciones constituye su aceptación de los nuevos términos.",
+        
+        section7Title: "7. Contacto",
+        section7Text: "Si tiene preguntas sobre estos términos, puede contactarnos a través de los canales oficiales proporcionados en la plataforma.",
+        
+        lastUpdated: "Última actualización:",
+        backToHome: "Volver al inicio"
+      },
+            // ==================== POLÍTICA DE PRIVACIDAD ====================
+      privacy: {
+        title: "🔒 Política de Privacidad",
+        welcome: "Su privacidad es importante:",
+        welcomeText: "Esta política describe cómo recopilamos, usamos y protegemos su información.",
+        
+        section1Title: "1. Información que Recopilamos",
+        section1Intro: "Recopilamos la siguiente información:",
+        section1Account: "Información de cuenta: nombre, email, país, ciudad",
+        section1Offers: "Información de ofertas: especialidades, ofertas publicadas",
+        section1Usage: "Datos de uso: logs de acceso, dirección IP",
+        section1Cookies: "Cookies: para mantener su sesión activa",
+        
+        section2Title: "2. Cómo Usamos su Información",
+        section2Intro: "Utilizamos su información para:",
+        section2Item1: "Proporcionar y mantener el servicio",
+        section2Item2: "Autenticar su identidad",
+        section2Item3: "Comunicarnos con usted sobre actualizaciones",
+        section2Item4: "Mejorar la experiencia del usuario",
+        section2Item5: "Prevenir fraude y abuso",
+        section2Item6: "Cumplir con obligaciones legales",
+        
+        section3Title: "3. Compartir Información",
+        section3NoSell: "NO vendemos su información personal.",
+        section3Intro: "Solo compartimos información cuando:",
+        section3Item1: "Usted nos da permiso explícito",
+        section3Item2: "Es necesario para proporcionar el servicio",
+        section3Item3: "Es requerido por ley o autoridad competente",
+        section3Item4: "Es necesario para proteger nuestros derechos legales",
+        
+        section4Title: "4. Seguridad de los Datos",
+        section4Intro: "Implementamos medidas de seguridad técnicas y organizativas para proteger su información, incluyendo:",
+        section4Item1: "Encriptación de contraseñas",
+        section4Item2: "Conexiones HTTPS seguras",
+        section4Item3: "Acceso restringido a datos personales",
+        section4Item4: "Monitoreo de actividad sospechosa",
+        section4Note: "Nota: Ningún método de transmisión por Internet es 100% seguro. No podemos garantizar la seguridad absoluta de sus datos.",
+        
+        section5Title: "5. Sus Derechos",
+        section5Intro: "Usted tiene derecho a:",
+        section5Access: "Acceso: solicitar una copia de sus datos",
+        section5Correction: "Corrección: actualizar información incorrecta",
+        section5Deletion: "Eliminación: solicitar la eliminación de su cuenta",
+        section5Portability: "Portabilidad: recibir sus datos en formato estructurado",
+        section5Objection: "Objeción: oponerse al procesamiento de sus datos",
+        section5Contact: "Para ejercer estos derechos, contacte con nosotros a través de los canales oficiales.",
+        
+        section6Title: "6. Cookies",
+        section6Text: "Utilizamos cookies para mantener su sesión activa y mejorar su experiencia. Puede configurar su navegador para rechazar cookies, pero esto puede afectar la funcionalidad del sitio.",
+        
+        section7Title: "7. Retención de Datos",
+        section7Text: "Conservamos su información personal mientras su cuenta esté activa o según sea necesario para proporcionar servicios. Puede solicitar la eliminación de su cuenta en cualquier momento.",
+        
+        section8Title: "8. Cambios a esta Política",
+        section8Text: "Podemos actualizar esta política periódicamente. Le notificaremos de cambios significativos publicando la nueva política en esta página y actualizando la fecha de \"última actualización\".",
+        
+        section9Title: "9. Cumplimiento Legal",
+        section9Text: "Esta política cumple con las regulaciones aplicables, incluyendo GDPR (Unión Europea) y otras leyes de protección de datos relevantes para nuestros usuarios.",
+        
+        lastUpdated: "Última actualización:",
+        backToHome: "Volver al inicio"
+      },
+            // ==================== DISCLAIMER LEGAL ====================
+      disclaimer: {
+        title: "⚖️ Disclaimer Legal",
+        important: "Importante:",
+        importantText: "Lea atentamente este disclaimer antes de usar la plataforma.",
+        
+        section1Title: "1. Limitación de Responsabilidad",
+        section1Text: "Este software se proporciona \"TAL CUAL\" sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, pero no limitado a, garantías implícitas de comerciabilidad, idoneidad para un propósito particular y no infracción.",
+        
+        section2Title: "2. Exención de Garantías",
+        section2Intro: "Los desarrolladores NO garantizan que:",
+        section2Item1: "El servicio estará disponible sin interrupciones",
+        section2Item2: "Los errores serán corregidos",
+        section2Item3: "El servicio estará libre de virus o componentes dañinos",
+        section2Item4: "Los resultados del uso del servicio serán precisos o confiables",
+        
+        section3Title: "3. Responsabilidades del Usuario",
+        section3Intro: "El usuario es el único responsable de:",
+        section3Item1: "El uso que haga de la información proporcionada en la plataforma",
+        section3Item2: "Cumplir con las leyes locales, estatales, nacionales e internacionales",
+        section3Item3: "Obtener los consentimientos necesarios de terceros",
+        section3Item4: "La seguridad de sus credenciales de acceso",
+        section3Item5: "Las consecuencias de cualquier acción tomada basada en la información del servicio",
+        
+        section4Title: "4. Protección de Datos",
+        section4Text: "El usuario declara ser consciente de sus obligaciones bajo las leyes de protección de datos aplicables (GDPR, CCPA, etc.) y se compromete a cumplir con todas las regulaciones pertinentes.",
+        
+        section5Title: "5. Indemnización",
+        section5Text: "El usuario acuerda indemnizar, defender y eximir de responsabilidad a los desarrolladores de cualquier reclamo, pérdida, responsabilidad, daño, costo o gasto (incluyendo honorarios razonables de abogados) que surja del uso del servicio.",
+        
+        section6Title: "6. Sin Garantía de Disponibilidad",
+        section6Text: "No garantizamos que el servicio esté disponible en todo momento. Podemos suspender, retirar, descontinuar o cambiar cualquier aspecto del servicio sin previo aviso.",
+        
+        section7Title: "7. Modificaciones",
+        section7Text: "Nos reservamos el derecho de modificar estos términos en cualquier momento. El uso continuado del servicio constituye la aceptación de dichas modificaciones.",
+        
+        section8Title: "8. Jurisdicción",
+        section8Text: "Estos términos se rigen por las leyes de Perú, sin tener en cuenta sus disposiciones sobre conflictos de leyes.",
+        
+        riskWarning: "⚠️ USO BAJO SU PROPIO RIESGO",
+        riskText: "Al usar esta plataforma, usted acepta expresamente que el uso es bajo su propio riesgo.",
+        
+        lastUpdated: "Última actualización:",
+        backToHome: "Volver al inicio"
+      },
     }
   },
 
@@ -804,6 +947,148 @@ const resources = {
         serviceDisclaimer: "This service is provided \"as is\" without warranties. Use of this platform is at your own risk.",
         developedBy: "Developed by",
         donate: "💝 Donate"
+      },
+            // ==================== TERMS OF USE ====================
+      terms: {
+        title: "📜 Terms of Use",
+        welcome: "Welcome:",
+        welcomeText: "By using this platform, you agree to the following terms and conditions.",
+        
+        section1Title: "1. Acceptance of Terms",
+        section1Text: "By accessing and using this service, you agree to be bound by these terms of use and all applicable laws and regulations. If you do not agree with any of these terms, do not use this service.",
+        
+        section2Title: "2. Use of the Service",
+        section2Intro: "You agree to:",
+        section2Item1: "Provide truthful and up-to-date information",
+        section2Item2: "Not use the service for illegal or unauthorized purposes",
+        section2Item3: "Not attempt to access other users' accounts",
+        section2Item4: "Not transmit viruses, malware or malicious code",
+        section2Item5: "Not harass, abuse or harm other users",
+        
+        section3Title: "3. User Account",
+        section3Text: "You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use.",
+        
+        section4Title: "4. User Content",
+        section4Text: "You retain all rights to the content you post. However, by posting content, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, and display such content in connection with the service.",
+        
+        section5Title: "5. Termination",
+        section5Text: "We reserve the right to suspend or terminate your access to the service at any time, without prior notice, for conduct we deem inappropriate or for violation of these terms.",
+        
+        section6Title: "6. Modifications",
+        section6Text: "We reserve the right to modify these terms at any time. Your continued use of the service after such modifications constitutes your acceptance of the new terms.",
+        
+        section7Title: "7. Contact",
+        section7Text: "If you have any questions about these terms, you can contact us through the official channels provided on the platform.",
+        
+        lastUpdated: "Last updated:",
+        backToHome: "Back to home"
+      },
+            // ==================== PRIVACY POLICY ====================
+      privacy: {
+        title: "🔒 Privacy Policy",
+        welcome: "Your privacy is important:",
+        welcomeText: "This policy describes how we collect, use and protect your information.",
+        
+        section1Title: "1. Information We Collect",
+        section1Intro: "We collect the following information:",
+        section1Account: "Account information: name, email, country, city",
+        section1Offers: "Offer information: specialties, published offers",
+        section1Usage: "Usage data: access logs, IP address",
+        section1Cookies: "Cookies: to keep your session active",
+        
+        section2Title: "2. How We Use Your Information",
+        section2Intro: "We use your information to:",
+        section2Item1: "Provide and maintain the service",
+        section2Item2: "Authenticate your identity",
+        section2Item3: "Communicate with you about updates",
+        section2Item4: "Improve user experience",
+        section2Item5: "Prevent fraud and abuse",
+        section2Item6: "Comply with legal obligations",
+        
+        section3Title: "3. Sharing Information",
+        section3NoSell: "We do NOT sell your personal information.",
+        section3Intro: "We only share information when:",
+        section3Item1: "You give us explicit permission",
+        section3Item2: "It is necessary to provide the service",
+        section3Item3: "It is required by law or competent authority",
+        section3Item4: "It is necessary to protect our legal rights",
+        
+        section4Title: "4. Data Security",
+        section4Intro: "We implement technical and organizational security measures to protect your information, including:",
+        section4Item1: "Password encryption",
+        section4Item2: "Secure HTTPS connections",
+        section4Item3: "Restricted access to personal data",
+        section4Item4: "Monitoring of suspicious activity",
+        section4Note: "Note: No method of transmission over the Internet is 100% secure. We cannot guarantee absolute security of your data.",
+        
+        section5Title: "5. Your Rights",
+        section5Intro: "You have the right to:",
+        section5Access: "Access: request a copy of your data",
+        section5Correction: "Correction: update incorrect information",
+        section5Deletion: "Deletion: request deletion of your account",
+        section5Portability: "Portability: receive your data in a structured format",
+        section5Objection: "Objection: object to the processing of your data",
+        section5Contact: "To exercise these rights, please contact us through the official channels.",
+        
+        section6Title: "6. Cookies",
+        section6Text: "We use cookies to keep your session active and improve your experience. You can configure your browser to reject cookies, but this may affect the functionality of the site.",
+        
+        section7Title: "7. Data Retention",
+        section7Text: "We retain your personal information while your account is active or as necessary to provide services. You may request deletion of your account at any time.",
+        
+        section8Title: "8. Changes to this Policy",
+        section8Text: "We may update this policy periodically. We will notify you of significant changes by posting the new policy on this page and updating the \"last updated\" date.",
+        
+        section9Title: "9. Legal Compliance",
+        section9Text: "This policy complies with applicable regulations, including GDPR (European Union) and other data protection laws relevant to our users.",
+        
+        lastUpdated: "Last updated:",
+        backToHome: "Back to home"
+      },
+            // ==================== LEGAL DISCLAIMER ====================
+      disclaimer: {
+        title: "⚖️ Legal Disclaimer",
+        important: "Important:",
+        importantText: "Please read this disclaimer carefully before using the platform.",
+        
+        section1Title: "1. Limitation of Liability",
+        section1Text: "This software is provided \"AS IS\" without warranties of any kind, express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose and non-infringement.",
+        
+        section2Title: "2. Disclaimer of Warranties",
+        section2Intro: "The developers do NOT warrant that:",
+        section2Item1: "The service will be available without interruptions",
+        section2Item2: "Errors will be corrected",
+        section2Item3: "The service will be free of viruses or harmful components",
+        section2Item4: "The results of using the service will be accurate or reliable",
+        
+        section3Title: "3. User Responsibilities",
+        section3Intro: "The user is solely responsible for:",
+        section3Item1: "The use they make of the information provided on the platform",
+        section3Item2: "Complying with local, state, national and international laws",
+        section3Item3: "Obtaining necessary consents from third parties",
+        section3Item4: "The security of their access credentials",
+        section3Item5: "The consequences of any action taken based on the service information",
+        
+        section4Title: "4. Data Protection",
+        section4Text: "The user declares to be aware of their obligations under applicable data protection laws (GDPR, CCPA, etc.) and undertakes to comply with all relevant regulations.",
+        
+        section5Title: "5. Indemnification",
+        section5Text: "The user agrees to indemnify, defend and hold harmless the developers from any claim, loss, liability, damage, cost or expense (including reasonable attorneys' fees) arising from the use of the service.",
+        
+        section6Title: "6. No Warranty of Availability",
+        section6Text: "We do not warrant that the service will be available at all times. We may suspend, withdraw, discontinue or change any aspect of the service without prior notice.",
+        
+        section7Title: "7. Modifications",
+        section7Text: "We reserve the right to modify these terms at any time. Continued use of the service constitutes acceptance of such modifications.",
+        
+        section8Title: "8. Jurisdiction",
+        section8Text: "These terms are governed by the laws of Peru, without regard to its conflict of laws provisions.",
+        
+        riskWarning: "⚠️ USE AT YOUR OWN RISK",
+        riskText: "By using this platform, you expressly agree that the use is at your own risk.",
+        
+        lastUpdated: "Last updated:",
+        backToHome: "Back to home"
       },
     }
   }
