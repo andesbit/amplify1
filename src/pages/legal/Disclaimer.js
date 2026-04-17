@@ -1,99 +1,81 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Legal.css';
 
 function Disclaimer() {
+  const { t } = useTranslation();
   const lastUpdate = new Date().toLocaleDateString('es-ES');
 
   return (
     <div className="legal-container">
-      <h1>⚖️ Disclaimer Legal</h1>
+      <h1>{t('disclaimer.title')}</h1>
 
       <div className="alert alert-warning">
-        <strong>Importante:</strong> Lea atentamente este disclaimer antes de usar la plataforma.
+        <strong>{t('disclaimer.important')}</strong> {t('disclaimer.importantText')}
       </div>
 
       <div className="legal-section">
-        <h2>1. Limitación de Responsabilidad</h2>
-        <p>
-          Este software se proporciona "TAL CUAL" sin garantías de ningún tipo, ya sean expresas o implícitas,
-          incluyendo, pero no limitado a, garantías implícitas de comerciabilidad, idoneidad para un propósito
-          particular y no infracción.
-        </p>
+        <h2>{t('disclaimer.section1Title')}</h2>
+        <p>{t('disclaimer.section1Text')}</p>
       </div>
 
       <div className="legal-section">
-        <h2>2. Exención de Garantías</h2>
-        <p>Los desarrolladores NO garantizan que:</p>
+        <h2>{t('disclaimer.section2Title')}</h2>
+        <p>{t('disclaimer.section2Intro')}</p>
         <ul>
-          <li>El servicio estará disponible sin interrupciones</li>
-          <li>Los errores serán corregidos</li>
-          <li>El servicio estará libre de virus o componentes dañinos</li>
-          <li>Los resultados del uso del servicio serán precisos o confiables</li>
+          <li>{t('disclaimer.section2Item1')}</li>
+          <li>{t('disclaimer.section2Item2')}</li>
+          <li>{t('disclaimer.section2Item3')}</li>
+          <li>{t('disclaimer.section2Item4')}</li>
         </ul>
       </div>
 
       <div className="legal-section">
-        <h2>3. Responsabilidades del Usuario</h2>
-        <p>El usuario es el único responsable de:</p>
+        <h2>{t('disclaimer.section3Title')}</h2>
+        <p>{t('disclaimer.section3Intro')}</p>
         <ul>
-          <li>El uso que haga de la información proporcionada en la plataforma</li>
-          <li>Cumplir con las leyes locales, estatales, nacionales e internacionales</li>
-          <li>Obtener los consentimientos necesarios de terceros</li>
-          <li>La seguridad de sus credenciales de acceso</li>
-          <li>Las consecuencias de cualquier acción tomada basada en la información del servicio</li>
+          <li>{t('disclaimer.section3Item1')}</li>
+          <li>{t('disclaimer.section3Item2')}</li>
+          <li>{t('disclaimer.section3Item3')}</li>
+          <li>{t('disclaimer.section3Item4')}</li>
+          <li>{t('disclaimer.section3Item5')}</li>
         </ul>
       </div>
 
       <div className="legal-section">
-        <h2>4. Protección de Datos</h2>
-        <p>
-          El usuario declara ser consciente de sus obligaciones bajo las leyes de protección de datos aplicables
-          (GDPR, CCPA, etc.) y se compromete a cumplir con todas las regulaciones pertinentes.
-        </p>
+        <h2>{t('disclaimer.section4Title')}</h2>
+        <p>{t('disclaimer.section4Text')}</p>
       </div>
 
       <div className="legal-section">
-        <h2>5. Indemnización</h2>
-        <p>
-          El usuario acuerda indemnizar, defender y eximir de responsabilidad a los desarrolladores de cualquier
-          reclamo, pérdida, responsabilidad, daño, costo o gasto (incluyendo honorarios razonables de abogados)
-          que surja del uso del servicio.
-        </p>
+        <h2>{t('disclaimer.section5Title')}</h2>
+        <p>{t('disclaimer.section5Text')}</p>
       </div>
 
       <div className="legal-section">
-        <h2>6. Sin Garantía de Disponibilidad</h2>
-        <p>
-          No garantizamos que el servicio esté disponible en todo momento. Podemos suspender, retirar, descontinuar
-          o cambiar cualquier aspecto del servicio sin previo aviso.
-        </p>
+        <h2>{t('disclaimer.section6Title')}</h2>
+        <p>{t('disclaimer.section6Text')}</p>
       </div>
 
       <div className="legal-section">
-        <h2>7. Modificaciones</h2>
-        <p>
-          Nos reservamos el derecho de modificar estos términos en cualquier momento.
-          El uso continuado del servicio constituye la aceptación de dichas modificaciones.
-        </p>
+        <h2>{t('disclaimer.section7Title')}</h2>
+        <p>{t('disclaimer.section7Text')}</p>
       </div>
 
       <div className="legal-section">
-        <h2>8. Jurisdicción</h2>
-        <p>
-          Estos términos se rigen por las leyes aplicables, sin tener en cuenta sus disposiciones
-          sobre conflictos de leyes.
-        </p>
+        <h2>{t('disclaimer.section8Title')}</h2>
+        <p>{t('disclaimer.section8Text')}</p>
       </div>
 
       <div className="alert alert-danger">
-        <strong>⚠️ USO BAJO SU PROPIO RIESGO</strong><br />
-        Al usar esta plataforma, usted acepta expresamente que el uso es bajo su propio riesgo.
+        <strong>{t('disclaimer.riskWarning')}</strong><br />
+        {t('disclaimer.riskText')}
       </div>
 
       <div className="legal-footer">
-        <small>Última actualización: {lastUpdate}</small>
-        <Link to="/" className="btn-back">Volver al inicio</Link>
+        <small>{t('disclaimer.lastUpdated')} {lastUpdate}</small>
+        <Link to="/" className="btn-back">{t('disclaimer.backToHome')}</Link>
       </div>
     </div>
   );
