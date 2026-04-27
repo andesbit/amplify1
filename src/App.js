@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.js';
 import Footer from './components/Footer.js';
+import OnboardingTutorial from './components/OnboardingTutorial.js';
 import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import Profile from './pages/Profile.js';
@@ -19,6 +20,7 @@ import Ayuda from './pages/Ayuda.js';
 function App() {
   return (
     <Router>
+      <OnboardingTutorial /> 
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

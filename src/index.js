@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './darkmode.css';  // ← NUEVO
 import App from './App.js';
 import reportWebVitals from './reportWebVitals.js';
 import { Amplify } from 'aws-amplify';

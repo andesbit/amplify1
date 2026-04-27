@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { signOut, fetchAuthSession } from 'aws-amplify/auth';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector.js';
+import DarkModeToggle from './DarkModeToggle.js';
 import './Navbar.css';
 
 function Navbar() {
@@ -49,6 +50,7 @@ function Navbar() {
       {/* Language Selector */}
       <div id="spetialLS">
         <LanguageSelector />
+        <DarkModeToggle />  {/* ← NUEVO */}
       </div>
 
       <div className="navbar-container">
