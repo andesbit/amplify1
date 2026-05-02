@@ -7,18 +7,26 @@
   padding: 20px;
 }
 
+body.dark-mode .login-container {
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
 .login-box {
-  background: white;
+  background: var(--card-bg);
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px var(--shadow);
   text-align: center;
   min-width: 300px;
 }
 
 .login-box h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-primary);
+}
+
+.login-box p {
+  color: var(--text-secondary);
 }
 
 .button-group {
@@ -70,10 +78,20 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+body.dark-mode .btn-google {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
 .btn-google:hover {
   background-color: #f8f9fa;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   transform: translateY(-1px);
+}
+
+body.dark-mode .btn-google:hover {
+  background-color: var(--bg-secondary);
 }
 
 .btn-google svg {

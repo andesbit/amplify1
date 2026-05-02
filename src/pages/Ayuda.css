@@ -1,15 +1,15 @@
 .ayuda-container {
   min-height: 100vh;
   padding: 2rem 1rem;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
 }
 
 .ayuda-content {
   max-width: 900px;
   margin: 0 auto;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   padding: 2rem;
 }
 
@@ -21,13 +21,13 @@
 }
 
 .ayuda-header h1 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
   font-size: 2.2rem;
 }
 
 .ayuda-header p {
-  color: #6c757d;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin: 0;
 }
@@ -42,24 +42,24 @@
   font-size: 1.8rem;
   margin: 0 0 1.5rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .ayuda-step {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
 }
 
 .ayuda-step h3 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
   font-size: 1.3rem;
 }
 
 .ayuda-step h4 {
-  color: #495057;
+  color: var(--text-primary);
   margin: 1rem 0 0.5rem 0;
   font-size: 1.1rem;
 }
@@ -73,12 +73,12 @@
 
 .ayuda-step li {
   margin-bottom: 0.5rem;
-  color: #495057;
+  color: var(--text-primary);
 }
 
 /* Campos del perfil */
 .ayuda-field {
-  background: white;
+  background: var(--card-bg);
   padding: 1rem;
   border-radius: 6px;
   margin-bottom: 1rem;
@@ -87,6 +87,7 @@
 
 .ayuda-field h4 {
   margin-top: 0;
+  color: var(--text-primary);
 }
 
 /* Tips y notas */
@@ -99,6 +100,11 @@
   color: #0c5460;
 }
 
+body.dark-mode .ayuda-tip {
+  background: rgba(13, 202, 240, 0.2);
+  color: #6dd5ed;
+}
+
 .ayuda-note {
   background: #fff3cd;
   border-left: 4px solid #856404;
@@ -106,6 +112,11 @@
   border-radius: 6px;
   margin-top: 1rem;
   color: #856404;
+}
+
+body.dark-mode .ayuda-note {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
 }
 
 .ayuda-important {
@@ -118,6 +129,11 @@
   font-weight: 500;
 }
 
+body.dark-mode .ayuda-important {
+  background: rgba(220, 53, 69, 0.2);
+  color: #f8d7da;
+}
+
 /* Grid de consejos */
 .ayuda-tips-grid {
   display: grid;
@@ -127,10 +143,10 @@
 }
 
 .ayuda-tip-card {
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 8px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border-color);
   transition: all 0.3s;
 }
 
@@ -147,14 +163,14 @@
 }
 
 .ayuda-tip-card p {
-  color: #6c757d;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
 }
 
 /* FAQ */
 .ayuda-faq {
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   padding: 1rem 1.5rem;
   border-radius: 6px;
   margin-bottom: 1rem;
@@ -168,7 +184,7 @@
 }
 
 .ayuda-faq p {
-  color: #495057;
+  color: var(--text-primary);
   margin: 0;
   line-height: 1.6;
 }

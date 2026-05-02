@@ -2,6 +2,7 @@
 .home-container {
   min-height: 100vh;
   padding-top: 60px; /* Espacio para el navbar */
+  background-color: var(--bg-primary);
 }
 
 .home-content {
@@ -12,8 +13,8 @@
 .admin-panel {
   text-align: center;
   padding: 1rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .btn-admin {
@@ -42,7 +43,7 @@
   margin: 0 0 1.5rem 0;
   padding: 0 1rem;
   font-size: 2rem;
-  color: #333;
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -61,15 +62,21 @@
 .search-input-home {
   width: 100%;
   padding: 12px 40px 12px 16px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .search-input-home:focus {
   outline: none;
   border-color: #007bff;
+}
+
+.search-input-home::placeholder {
+  color: var(--text-secondary);
 }
 
 .clear-btn-home {
@@ -80,18 +87,18 @@
   background: none;
   border: none;
   font-size: 20px;
-  color: #999;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px 8px;
 }
 
 .clear-btn-home:hover {
-  color: #333;
+  color: var(--text-primary);
 }
 
 .search-results-text-home {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   margin-top: 8px;
   font-size: 14px;
 }
@@ -105,31 +112,20 @@
 }
 
 /* Cards de usuario */
-/*
-.user-card-home {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
-*/
 .user-card-home {
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
 }
 
-
 .user-card-home:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px var(--shadow);
 }
 
 .user-avatar-home {
@@ -160,17 +156,23 @@
 .user-info-home h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
+}
+
+.user-username-home {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0.25rem 0;
 }
 
 .user-age-home {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
   margin: 0.25rem 0;
 }
 
 .user-bio-home {
-  color: #555;
+  color: var(--text-primary);
   font-size: 14px;
   margin: 0.5rem 0;
   line-height: 1.4;
@@ -179,16 +181,25 @@
 .user-offer-home {
   margin-top: 1rem;
   padding: 0.75rem;
-  background: #f0f8ff;
+  background: rgba(0, 102, 204, 0.1);
   border-radius: 8px;
   font-size: 14px;
   color: #0066cc;
+}
+
+body.dark-mode .user-offer-home {
+  background: rgba(0, 123, 255, 0.2);
+  color: #66b3ff;
 }
 
 .user-offer-home strong {
   display: block;
   margin-bottom: 0.25rem;
   color: #004080;
+}
+
+body.dark-mode .user-offer-home strong {
+  color: #4d94ff;
 }
 
 /* Botón cargar más */
@@ -241,7 +252,7 @@
 .end-message-home {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 16px;
 }
 
