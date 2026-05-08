@@ -1,104 +1,61 @@
-/* Variables de color */
+/* Variables de color - Dark Mode */
 :root {
+  /* === Fondos y estructura === */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
-  --text-primary: #212529;
-  --text-secondary: #6c757d;
-  --border-color: #dee2e6;
   --card-bg: #ffffff;
   --input-bg: #ffffff;
+
+  /* === Texto === */
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+
+  /* === Bordes y sombras === */
+  --border-color: #dee2e6;
   --shadow: rgba(0, 0, 0, 0.1);
+
+  /* === Colores de Acento (Brand) === */
+  --primary: #667eea;           /* Azul principal */
+  --primary-hover: #5568d3;
+  --primary-dark: #4a5dc2;
+
+  --danger: #ff4757;            /* Rojo eliminar / error */
+  --danger-hover: #ff3838;
+
+  --success: #28a745;           /* Verde éxito */
+  --success-hover: #218838;
+
+  --warning: #ffc107;           /* Amarillo warning */
+  --info: #17a2b8;              /* Azul info */
 }
 
+/* ===================== DARK MODE ===================== */
 body.dark-mode {
+  /* === Fondos y estructura === */
   --bg-primary: #1a1a1a;
   --bg-secondary: #2d2d2d;
-  --text-primary: #e9ecef;
-  --text-secondary: #adb5bd;
-  --border-color: #495057;
   --card-bg: #2d2d2d;
   --input-bg: #3a3a3a;
+
+  /* === Texto === */
+  --text-primary: #e9ecef;
+  --text-secondary: #adb5bd;
+
+  /* === Bordes y sombras === */
+  --border-color: #495057;
   --shadow: rgba(0, 0, 0, 0.5);
-}
 
-/* Aplicar variables globalmente */
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.3s, color 0.3s;
-}
+  /* === Colores de Acento en Dark Mode === */
+  --primary: #b8a068;           /* Azul más claro para mejor visibilidad en oscuro */
+  --primary-hover: #d4c796;
+  --primary-dark: #edd08d;
 
-/* Contenedores y cards */
-.profile-container,
-.home-container,
-.gallery-container,
-.public-profile-container {
-  background-color: var(--bg-primary);
-}
+  --danger: #ff6b7a;
+  --danger-hover: #ff8a95;
 
-.profile-content,
-.home-content,
-.gallery-content,
-.public-profile-content {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-}
+  --success: #4ade80;
+  --success-hover: #22c55e;
 
-.user-card-home,
-.image-card,
-.message-bubble {
-  background-color: var(--card-bg);
-  border-color: var(--border-color);
-  color: var(--text-primary);
-}
-
-/* Inputs y textareas */
-input,
-textarea,
-select {
-  background-color: var(--input-bg);
-  color: var(--text-primary);
-  border-color: var(--border-color);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-secondary);
-}
-
-/* Navbar permanece igual */
-.navbar {
-  /* No cambiar el navbar, mantener colores originales */
-}
-
-/* Sombras */
-.user-card-home,
-.profile-content,
-.image-card {
-  box-shadow: 0 2px 8px var(--shadow);
-}
-
-/* Links */
-a {
-  color: var(--text-primary);
-}
-
-/* Mensajes */
-body.dark-mode .message-bubble.sent {
-  background-color: #0d6efd;
-}
-
-body.dark-mode .message-bubble.received {
-  background-color: #495057;
-}
-
-/* Profile header */
-.profile-header {
-  background-color: var(--bg-secondary);
-}
-
-/* No image placeholder */
-.no-image {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
+  --warning: #facc15;
+  --info: #22d3ee;
 }
