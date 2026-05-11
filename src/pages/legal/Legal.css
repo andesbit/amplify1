@@ -1,19 +1,24 @@
+/* ==================== LEGAL PAGES - DARK MODE CORREGIDO ==================== */
+
 .legal-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  min-height: 100vh;
+  background-color: var(--bg-secondary);     /* ← Fondo secundario */
 }
 
+/* Títulos */
 .legal-container h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: var(--text-primary);           /* #2c3e50 */
+  color: var(--text-primary);
 }
 
 .legal-container h2,
 .legal-section h2 {
   font-size: 1.25rem;
-  color: var(--text-primary);           /* #2c3e50 */
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
 }
 
@@ -45,7 +50,7 @@
 
 /* Cards */
 .legal-card {
-  background: var(--card-bg);           /* white */
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
@@ -56,34 +61,15 @@
 .legal-card ul {
   padding-left: 1.5rem;
   margin: 0.5rem 0 0 0;
-  color: var(--text-secondary);         /* #555 */
-  line-height: 1.8;
-}
-
-.legal-card p {
-  color: var(--text-secondary);         /* #555 */
-  line-height: 1.7;
-  margin: 0;
-}
-
-.legal-card p + p {
-  margin-top: 0.5rem;
-}
-
-/* Sections sin card */
-.legal-section {
-  margin-bottom: 1.5rem;
-}
-
-.legal-section p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-.legal-section ul {
-  padding-left: 1.5rem;
   color: var(--text-secondary);
   line-height: 1.8;
+}
+
+.legal-card p,
+.legal-section p,
+.legal-section li {
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 /* Footer */
@@ -99,24 +85,36 @@
 }
 
 .legal-footer small {
-  color: var(--text-secondary);         /* #6c757d */
+  color: var(--text-secondary);
 }
 
 /* Botón volver */
 .btn-back {
   padding: 10px 24px;
-  background: #007bff;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.3s;
+  transition: all 0.3s;
   display: inline-block;
 }
 
 .btn-back:hover {
-  background: #0056b3;
+  background: var(--primary-hover);
   color: white;
+  transform: translateY(-2px);
+}
+
+/* ==================== DARK MODE EXTRA (por si acaso) ==================== */
+body.dark-mode .legal-container {
+  background-color: var(--bg-secondary) !important;
+}
+
+body.dark-mode .alert-info,
+body.dark-mode .alert-warning,
+body.dark-mode .alert-danger {
+  opacity: 0.9;
 }

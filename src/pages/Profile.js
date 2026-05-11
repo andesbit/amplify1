@@ -11,7 +11,7 @@ import { deleteUser } from 'aws-amplify/auth';
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  
+
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState({
     name: '',
@@ -20,7 +20,7 @@ function Profile() {
     offer: '',
     profilePicture: ''
   });
-  
+
   const [ubicacion, setUbicacion] = useState({
     pais: '',
     ciudad: '',
@@ -76,7 +76,7 @@ function Profile() {
   useEffect(() => {
     loadUserProfile();
   }, []);
-  
+
   useEffect(() => {
     const { pais, ciudad, frase, biografia } = separarBio(profile.bio);
     setUbicacion({ pais, ciudad, frase, biografia });
@@ -132,7 +132,7 @@ function Profile() {
       console.error('Error cargando imagen:', error);
     }
   }
-  
+
   const separarBio = (bioTexto) => {
     if (bioTexto === undefined) bioTexto = "";
     const partes = bioTexto.trim().split('|');
@@ -146,7 +146,7 @@ function Profile() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    
+
     if (['pais', 'ciudad', 'frase', 'biografia'].includes(name)) {
       setUbicacion(prev => ({ ...prev, [name]: value }));
     } else {
@@ -170,7 +170,7 @@ function Profile() {
       };
 
       const compressedFile = await imageCompression(file, options);
-      
+
       if (profile.profilePicture) {
         try {
           await remove({ path: profile.profilePicture });
@@ -180,7 +180,7 @@ function Profile() {
       }
 
       const fileName = `profile-pictures/${user.userId}-${Date.now()}.jpg`;
-      
+
       await uploadData({
         path: fileName,
         data: compressedFile,
@@ -202,7 +202,7 @@ function Profile() {
 
   async function handleSave(e) {
     e.preventDefault();
-    
+
     if (!profile.userName || profile.userName.trim().length < 3) {
       setMessage(t('profile.usernameMinLength'));
       return;
@@ -247,7 +247,7 @@ function Profile() {
         });
         setMessage(t('profile.created'));
       }
-      
+
       setProfile(prev => ({ ...prev, bio: bioUnida }));
     } catch (error) {
       console.error('Error guardando perfil:', error);
@@ -269,7 +269,7 @@ function Profile() {
 
       if (userProfiles && userProfiles.length > 0) {
         const userProfile = userProfiles[0];
-        
+
         if (userProfile.profilePicture) {
           try { await remove({ path: userProfile.profilePicture }); } catch {}
         }
@@ -298,7 +298,7 @@ function Profile() {
       }
 
       await deleteUser();
-      
+
       alert(t('profile.accountDeleted'));
       window.location.href = '/';
     } catch (error) {
@@ -382,9 +382,9 @@ function Profile() {
                 pattern="^[a-zA-Z0-9_]{3,20}$"
                 title={t('profile.usernameHint')}
                 className={
-                  profile.userName.length >= 3 
-                    ? userNameAvailable === true ? 'input-success' 
-                    : userNameAvailable === false ? 'input-error' 
+                  profile.userName.length >= 3
+                    ? userNameAvailable === true ? 'input-success'
+                    : userNameAvailable === false ? 'input-error'
                     : ''
                     : ''
                 }
@@ -473,10 +473,12 @@ function Profile() {
         </form>
 
         <br />
-        <button onClick={() => navigate('/')} className="btn-outline">
-          {t('profile.backHome')}
-        </button>
 
+        <button onClick={() => navigate('/')} className="btn-outline">
+          <span className="btn-text">{t('profile.backHome')}</span>
+          <span className="bg-fill"></span>
+        </button>
+        
         <div className="delete-account-section">
           <button
             type="button"

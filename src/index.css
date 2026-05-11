@@ -25,68 +25,74 @@ code {
       margin: 0;
       padding: 0;
     }
+    /* ==================== BOTÓN OUTLINE DORADO - CON BG-FILL ==================== */
     .btn-outline {
       position: relative;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      padding: 16px;
+      padding: 16px 28px;
       font-family: 'DM Sans', sans-serif;
       font-weight: 600;
       font-size: 15px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       color: #B8860B;
       background: transparent;
-      border: 2px solid var(--yellow);
+      border: 2px solid #B8860B;
       border-radius: 10px;
       cursor: pointer;
-      outline: none;
-      transition: color 0.25s, box-shadow 0.25s, transform 0.15s;
       overflow: hidden;
-      box-shadow:
-        0 4px 14px rgba(0,0,0,0.08),
-        0 1px 3px rgba(0,0,0,0.06);
-      border-bottom: 7px solid #E8B800;
+      box-shadow: 0 4px 15px var(--shadow);
+      border-bottom: 6px solid #E8B800;
+      transition: transform 0.4s ease;
     }
 
-    .btn-outline::after {
-      content: '';
+    .btn-outline .bg-fill {
       position: absolute;
       inset: 0;
-      background: var(--yellow);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 0;
-    }
-
-    .btn-outline span {
-      position: relative;
+      background: linear-gradient(135deg, #B8860B 0%, #E8B800 100%);
+      transform: translateY(100%);
+      transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: color 0.25s;
     }
 
+    .btn-outline .btn-text,
+    .btn-outline .btn-content {
+      position: relative;
+      z-index: 2;
+      transition: color 0.75s ease;
+    }
+
+    /* Hover */
     .btn-outline:hover {
-      color: var(--dark);
-      transform: translateY(-2px);
-      box-shadow:
-        0 0 30px var(--shadow-glow),
-        0 10px 28px rgba(0,0,0,0.13),
-        0 3px 8px rgba(0,0,0,0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(184, 134, 11, 0.4);
     }
 
-    .btn-outline:hover::after {
-      transform: scaleY(1);
-      transform-origin: bottom;
+    .btn-outline:hover .bg-fill {
+      transform: translateY(0);
     }
 
-    .btn-outline:hover span { color: var(--dark); }
+    /* Texto blanco al llenarse */
+    .btn-outline:hover .btn-text,
+    .btn-outline:hover .btn-content {
+      color: white !important;
+    }
 
-    .btn-outline svg { transition: transform 0.3s; }
-    .btn-outline:hover svg { transform: translateX(-5px); }
-    .btn-outline:active { transform: translateY(1px); }
+    /* ==================== DARK MODE ==================== */
+    body.dark-mode .btn-outline {
+      color: #ffdd7a;
+      border-color: #ffdd7a;
+      border-bottom-color: #f4c14d;
+    }
 
+    body.dark-mode .btn-outline:hover .bg-fill {
+      background: linear-gradient(135deg, #e0b04d 0%, #ffdd7a 100%);
+    }
+
+    body.dark-mode .btn-outline:hover .btn-text,
+    body.dark-mode .btn-outline:hover .btn-content {
+      color: #1a1a1a !important;
+    }
     .t200{width:200px;margin-left:240px;}
