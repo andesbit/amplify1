@@ -14,6 +14,8 @@ const resources = {
         help: "❓ Ayuda",
         login: "Iniciar Sesión",
         logout: "Cerrar Sesión",
+        helpGuide: "Ayuda",
+        tutorial: "Tutorial"  
       },
 
             // ==================== HOME ====================
@@ -336,7 +338,8 @@ const resources = {
         supportDonation: "Apoya el proyecto con una donación",
 
         backHome: "← Volver al Inicio",
-        startNow: "Comenzar Ahora →"
+        startNow: "Comenzar Ahora →",
+        viewTutorial: "Ver tutorial"
       },
 
       // ==================== ADD USER / ADMIN ====================
@@ -560,6 +563,8 @@ const resources = {
         help: "❓ Help",
         login: "Login",
         logout: "Logout",
+        helpGuide: "Help",
+        tutorial: "Tutorial"  
       },
 
             // ==================== HOME ====================
@@ -882,7 +887,8 @@ const resources = {
         supportDonation: "Support the project with a donation",
 
         backHome: "← Back to Home",
-        startNow: "Start Now →"
+        startNow: "Start Now →",
+        viewTutorial: "View tutorial"
       },
 
       // ==================== ADD USER / ADMIN ====================

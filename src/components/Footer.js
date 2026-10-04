@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+
+import DarkModeToggle from './DarkModeToggle.js';
+
 import './Footer.css';
 
 function Footer() {
@@ -15,6 +19,8 @@ function Footer() {
           <div className="footer-col">
             <h3>Ofertio</h3>
             <p>{t('footer.tagline')}</p>
+            <DarkModeToggle />  
+
           </div>
         </div>
 

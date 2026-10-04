@@ -46,7 +46,7 @@
   top: 1rem;
   right: 1rem;
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: rgb(167, 98, 98);
   border: none;
   padding: 8px 16px;
   border-radius: 20px;
@@ -61,7 +61,7 @@
 
 .tutorial-content {
   text-align: center;
-  color: white;
+  color: #222;
 }
 
 /* Animaciones */
@@ -91,7 +91,7 @@
 }
 
 .fertio-big {
-  color: white;
+  color: #222;
 }
 
 @keyframes bounce {
@@ -490,7 +490,7 @@
 .tutorial-text h2 {
   font-size: 1.8rem;
   margin: 0 0 1rem 0;
-  color: white;
+  color: #335577;
 }
 
 .tutorial-text p {

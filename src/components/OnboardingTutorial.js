@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './OnboardingTutorial.css';
 
+
 function OnboardingTutorial({ onComplete }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -11,6 +12,15 @@ function OnboardingTutorial({ onComplete }) {
     if (!hasSeenTutorial) {
       setTimeout(() => setIsVisible(true), 500);
     }
+ 
+    // Abrir a voluntad desde cualquier botón
+    function openTutorial() {
+      setCurrentStep(0);      // reiniciar desde el primer paso
+      setIsVisible(true);
+    }
+
+    window.addEventListener('show-tutorial', openTutorial);
+    return () => window.removeEventListener('show-tutorial', openTutorial);
   }, []);
 
   const steps = [

@@ -1,11 +1,16 @@
 .language-selector {
-  display: flex;
-  gap: 5px;
+ /* display: flex;
+  gap: 5px;*/
+
+/*display: inline-block;
+width:100px;*/
 }
 
 .language-selector button {
   padding: 6px 12px;
-  /*background: rgba(255, 255, 255, 0.2);*/
+  width:50px;
+  display:inline-block;
+  background: rgba(255, 255, 255, 0.2);
   background: #696868;
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);

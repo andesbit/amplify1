@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signOut, fetchAuthSession } from 'aws-amplify/auth';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,8 @@ function Navbar() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef(null);
 
   useEffect(() => {
     checkAuthStatus();
@@ -44,21 +46,28 @@ function Navbar() {
   function toggleMenu() {
     setMenuOpen(!menuOpen);
   }
+ function showTutorial() {                          // ← NUEVO
+    setHelpOpen(false);
+    setMenuOpen(false);
+    window.dispatchEvent(new Event('show-tutorial'));
+  }
 
   return (
     <nav className="navbar">
       {/* Language Selector */}
+      {/*
       <div id="spetialLS">
-        <LanguageSelector />
-        <DarkModeToggle />  {/* ← NUEVO */}
+        <_LanguageSelector />
+        <DarkModeToggle />  
       </div>
-
+      */}
       <div className="navbar-container">
         
         {/* Logo */}
         <Link to="/" className="navbar-logo">
           <span className="o">&nbsp;O</span>
           <span className="fertio">fertio</span>
+          <LanguageSelector />  
         </Link>
 
         {/* Botón hamburguesa */}
@@ -82,7 +91,7 @@ function Navbar() {
               {t('nav.home')}
             </Link>
           </li>
-
+{/*
           <li>
             <Link 
               to="/ayuda"
@@ -91,6 +100,34 @@ function Navbar() {
               {t('nav.help')}
             </Link>
           </li>
+*/}
+            <li className="has-submenu" ref={helpRef}>
+              <button
+                type="button"
+                className={`submenu-toggle ${location.pathname === '/ayuda' ? 'active' : ''}`}
+                onClick={() => setHelpOpen(!helpOpen)}
+                aria-expanded={helpOpen}
+              >
+                {t('nav.help')} <span className={`caret ${helpOpen ? 'open' : ''}`}>▾</span>
+              </button>
+
+              <ul className={`submenu ${helpOpen ? 'open' : ''}`}>
+                <li>
+                  <Link
+                    to="/ayuda"
+                    className={location.pathname === '/ayuda' ? 'active' : ''}
+                  >
+                    📖 {t('nav.helpGuide')}
+                  </Link>
+                </li>
+                <li>
+                  <button type="button" onClick={showTutorial}>
+                    🎬 {t('nav.tutorial')}
+                  </button>
+                </li>
+              </ul>
+            </li>
+
 
           {isAuthenticated ? (
             <>
@@ -119,12 +156,15 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link 
+              
+              {/*
+              <Link 
                   to="/users"
                   className={location.pathname === '/users' ? 'active' : ''}
                 >
                   {t('nav.users')}
                 </Link>
+               */}     
               </li>
               <li>
                 <button 
