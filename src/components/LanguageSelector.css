@@ -7,8 +7,9 @@ width:100px;*/
 }
 
 .language-selector button {
-  padding: 6px 12px;
-  width:50px;
+/*  padding: 6px 12px;
+  width:50px;*/
+  width:30px;
   display:inline-block;
   background: rgba(255, 255, 255, 0.2);
   background: #696868;

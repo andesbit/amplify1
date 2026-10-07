@@ -162,7 +162,7 @@ width:90px;*/
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 965px) {/*(max-width: 768px) {*/
   .navbar-container {
     padding: 15px 20px;
   }

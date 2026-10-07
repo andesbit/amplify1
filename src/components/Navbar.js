@@ -67,7 +67,8 @@ function Navbar() {
         <Link to="/" className="navbar-logo">
           <span className="o">&nbsp;O</span>
           <span className="fertio">fertio</span>
-          <LanguageSelector />  
+          <LanguageSelector />
+          <DarkModeToggle />
         </Link>
 
         {/* Botón hamburguesa */}

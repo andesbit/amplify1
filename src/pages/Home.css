@@ -270,6 +270,7 @@ body.dark-mode .user-offer-home strong {
 }
 
 /* Responsivo */
+/*
 @media (max-width: 768px) {
   .users-section h2 {
     font-size: 1.5rem;
@@ -290,6 +291,51 @@ body.dark-mode .user-offer-home strong {
     grid-template-columns: 1fr;
   }
 
+  .user-card-home {
+    padding: 1rem;
+  }
+}*/
+
+/* Responsivo (aquí aparece el menú sándwich) */
+@media (max-width: 768px) {
+  /* Quitar el padding lateral de los contenedores */
+  .users-section {
+    padding: 1rem 0;
+  }
+
+  .users-section h2 {
+    font-size: 1.5rem;
+    padding: 0 1rem;          /* solo el título conserva aire */
+  }
+
+  .search-container-home {
+    padding: 0 1rem;          /* el buscador conserva aire */
+  }
+
+  .search-input-home {
+    font-size: 14px;
+  }
+
+  /* Cards al 100% de ancho, una por fila, sin padding lateral */
+  .users-grid-home {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .user-card-home {
+    width: 100%;
+    border-radius: 0;         /* borde a borde */
+    border-left: none;
+    border-right: none;
+  }
+
+  .load-more-container-home {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
   .user-card-home {
     padding: 1rem;
   }

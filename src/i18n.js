@@ -7,11 +7,11 @@ const resources = {
       // ==================== NAVBAR ====================
       nav: {
         home: "Inicio",
-        messages: "📬 Mensajes",
+        messages: "Mensajes",
         profile: "Perfil",
         gallery: "Galería",
         users: "Usuarios",
-        help: "❓ Ayuda",
+        help: "Ayuda",
         login: "Iniciar Sesión",
         logout: "Cerrar Sesión",
         helpGuide: "Ayuda",
@@ -556,11 +556,11 @@ const resources = {
       // ==================== NAVBAR ====================
       nav: {
         home: "Home",
-        messages: "📬 Messages",
+        messages: "Messages",
         profile: "Profile",
         gallery: "Gallery",
         users: "Users",
-        help: "❓ Help",
+        help: "Help",
         login: "Login",
         logout: "Logout",
         helpGuide: "Help",
