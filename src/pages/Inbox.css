@@ -230,4 +230,17 @@
   .last-message {
     font-size: 0.9rem;
   }
+
+  .inbox-container {      
+   
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;;
+  }
+  .inbox-content {
+     width: 100%;
+    border-radius: 0;         /* borde a borde */
+    border-left: none;
+    border-right: none;
+  }
 }

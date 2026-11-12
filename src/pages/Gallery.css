@@ -306,6 +306,18 @@ body.dark-mode .message.info {
   .description-input {
     width: 100%;
   }
+ /* borde a borde */
+  .gallery-content {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 0px;
+    padding: 5px;
+  }
+
+  .gallery-container  {
+    width: 100%;
+    padding: 0px;        
+  }
 }
 
 .alert-warning {

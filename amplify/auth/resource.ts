@@ -43,8 +43,14 @@ export const auth = defineAuth({
       ],
     },
   },
+  multifactor: {
+    mode: 'OPTIONAL',   // cada usuario decide si lo activa
+    totp: true,
+  },
   // Opcional: activa protección contra eliminación accidental del User Pool
   // (muy recomendado en producción)
+
+ 
 });
 
 // Protección contra recreación accidental del User Pool (agrega al final)
